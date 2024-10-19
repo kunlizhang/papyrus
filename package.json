@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "eventregistry": "^9.1.0",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.0"
+  },
+  "name": "papyrus",
+  "description": "news of the future",
+  "version": "1.0.0",
+  "main": "testapi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunlizhang/papyrus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kunlizhang/papyrus/issues"
+  },
+  "homepage": "https://github.com/kunlizhang/papyrus#readme"
+}
