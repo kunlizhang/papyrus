@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
     );
 
     if (userCheck.rows.length > 0) {
-    console.log(`error: 'Username already exists'`)
+      console.log(`error: 'Username already exists'`)
       return res.status(400).json({ error: 'User already exists' });
     }
 
@@ -39,6 +39,7 @@ const registerUser = async (req, res) => {
     res.status(500).json({ error: 'Database error' });
   }
 };
+
 // User Login
 const loginUser = async (req, res) => {
   const { username, password } = req.body;

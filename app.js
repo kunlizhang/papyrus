@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const { Client } = require('pg'); // Import pg Client
 const authRoutes = require('./routes/auth');
+const dataRoutes = require('./routes/data');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.set('dbClient', client); // You can access the db client in routes using req
 
 // Use auth routes
 app.use('/auth', authRoutes);
+app.use('/data', dataRoutes);
 
 // Gracefully close the DB connection when the app is terminated
 process.on('SIGINT', () => {
