@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def convert_user_data(input_path, output_path=None):
+def convert_user_data(input_path, id_mapping={}, output_path=None):
     """
     Creates a file with only train data
 
@@ -14,7 +14,14 @@ def convert_user_data(input_path, output_path=None):
     NLINE = "#N#"
 
     def get_pos_impre(impressions, pos=True):
-        return [item.split("-")[0].strip("N") for item in impressions.split(" ") if item.endswith("-1" if pos else "-0")]
+        res = []
+        for item in impressions.split(" "):
+            if item.endswith("-1" if pos else "-0"):
+                id = item.split("-")[0].strip("N")
+                if id in id_mapping:
+                    id = id_mapping[id]
+                res.append(id)
+        return res
 
     def combine_impre(row):
         combined = ""
