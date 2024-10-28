@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pickle
 
 def convert_user_data(input_path, id_mapping={}, output_path=None):
     """
@@ -52,3 +53,39 @@ def convert_user_data(input_path, id_mapping={}, output_path=None):
         result_df.to_csv(output_path, sep='\t', index=False, header=False)
     
     return result_df 
+
+def convert_news_data(input_path, output_path=None, idx_map_output=None):
+    """
+    input_path: path to the input file
+    output_path: path to the output file
+
+    Returns: df of the converted data format
+    """
+    def generate_index_map(idxs):
+        res_map = {}
+        for i, idx in enumerate(idxs):
+            res_map[idx] = str(i)
+        return res_map
+
+    raw_df = pd.read_csv(input_path, sep='\t', header=None).reset_index()
+
+    raw_df.columns = ['index', 'news_id', 'cat_big', 'cat_small', 'title', 'blurb', 'url', 'foo', 'fib']
+    raw_df['news_id'] = raw_df['news_id'].str.strip("N")
+    raw_df['foo'] = ''
+    raw_df['fib'] = ''
+    raw_df['blurb'] = raw_df['blurb'].fillna(" ")
+    raw_df.loc[raw_df['blurb'] == " ", 'blurb'] = raw_df['title']
+    raw_df = raw_df[['index', 'news_id', 'cat_big', 'cat_small', 'foo', 'fib', 'title', 'blurb']]
+
+    index_map = generate_index_map(raw_df['news_id'].values)
+
+    raw_df['news_id'] = raw_df['news_id'].map(index_map)
+
+    if output_path:
+        raw_df.to_csv(output_path, sep='\t', index=False, header=False)
+
+    if idx_map_output:
+        with open(idx_map_output, 'wb') as f:
+            pickle.dump(index_map, f)
+
+    return raw_df, index_map
