@@ -1,5 +1,6 @@
 const axios = require('axios');
 const apiKey = '77275bc14f64499786d72ef46caab9ae';
+const REMOVED = '[Removed]';
 url = 'https://newsapi.org/v2/top-headlines';
 
 const getRecentArticles = async (req, res) => {
@@ -19,6 +20,7 @@ const getRecentArticles = async (req, res) => {
             text = 'INSERT INTO articles (article_name, article_url, article_desc, cover_image_url) VALUES ($1, $2, $3, $4) RETURNING *';
             desc = row['description'];
             if (desc == null) desc = "";
+            if (row['title'] == REMOVED) continue;
             values = [row['title'], row['url'], desc, row['urlToImage']];
             const result = await dbClient.query(
                 text, 
