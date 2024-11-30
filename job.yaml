@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: articles-script
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: articles-script
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: articles-script
+            imagePullPolicy: IfNotPresent
+            name: articles-script
+            resources: {}
+          restartPolicy: OnFailure
+  schedule: 0 */4 * * *
+status: {}
