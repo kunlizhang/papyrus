@@ -19,5 +19,5 @@ spec:
             name: articles-script
             resources: {}
           restartPolicy: OnFailure
-  schedule: 0 */4 * * *
+  schedule: 0 */12 * * *
 status: {}
