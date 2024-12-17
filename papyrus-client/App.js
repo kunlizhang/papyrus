@@ -18,7 +18,6 @@ function MainApp() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-
           if (route.name === 'Explore') {
             iconName = 'book';
           } else if (route.name === 'Search') {
@@ -28,13 +27,13 @@ function MainApp() {
           } else if (route.name === 'Profile') {
             iconName = 'person';
           }
-
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: theme.tabBarActiveTintColor,
         tabBarInactiveTintColor: theme.tabBarInactiveTintColor,
         tabBarStyle: {
           backgroundColor: theme.tabBarColor,
+          borderTopWidth: 0
         },
         headerShown: false,
       })}
