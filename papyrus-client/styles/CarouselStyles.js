@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { scale } from 'react-native-size-matters';
 
 const { width, height } = Dimensions.get('window');
 
@@ -7,7 +8,6 @@ const createStyles = (theme) =>
     container: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
       backgroundColor: theme.tabBarColor,
     },
     card: {
@@ -15,26 +15,35 @@ const createStyles = (theme) =>
       width: width,
       height: height,
       backgroundColor: theme.backgroundColor,
-      borderRadius: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 5 },
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      elevation: 5,
-      top: '50%',
-      left: '50%',
-      transform: [
-        { translateX: -(width * 0.9) / 2 },
-        { translateY: -(height * 0.6) / 2 },
-      ],
+      borderRadius: 50,
+      overflow: 'hidden',
     },
-    cardText: {
-      fontSize: 24,
+    textContainer: {
+      justifyContent: 'flex-end',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      paddingHorizontal: '8%',
+      paddingBottom: '32%',
+      height: '100%',
+    },
+    cardHeadline: {
+      fontSize: scale(45),
+      lineHeight: scale(45),
+      color: 'white',
+      textAlign: 'left',
+      paddingTop: scale(20),
+      paddingBottom: 0,
+      marginBottom: scale(-15),
+      fontFamily: theme.headlineFontFamily
+    },
+    cardSubtitle: {
+      fontSize: scale(14),
       fontWeight: 'bold',
-      textAlign: 'center',
-      color: theme.color, // Example dynamic styling for text
+      textAlign: 'left',
+      color: 'white',
+    },
+    cardBackground: {
+      width: '101%',
+      height: '101%',
     },
   });
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, Animated, PanResponder, Dimensions } from 'react-native';
+import { View, Text, Animated, PanResponder, Dimensions, ImageBackground } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import createStyles from '../styles/CarouselStyles';
 
@@ -17,7 +17,7 @@ const Carousel = ({ data }) => {
     onPanResponderMove: (_, gesture) => {
       position.setValue({
         x: gesture.dx / 4,
-        y: gesture.dy / 6,
+        y: 0
       });
     },
     onPanResponderRelease: (_, gesture) => {
@@ -25,14 +25,14 @@ const Carousel = ({ data }) => {
 
       if (gesture.dx > swipeThreshold) {
         Animated.timing(position, {
-          toValue: { x: width + 100, y: gesture.dy },
-          duration: 200,
+          toValue: { x: width, y: 0 },
+          duration: 300,
           useNativeDriver: false,
         }).start(() => onSwipeComplete('right'));
       } else if (gesture.dx < -swipeThreshold) {
         Animated.timing(position, {
-          toValue: { x: -width - 100, y: gesture.dy },
-          duration: 200,
+          toValue: { x: -width, y: 0 },
+          duration: 300,
           useNativeDriver: false,
         }).start(() => onSwipeComplete('left'));
       } else {
@@ -79,7 +79,16 @@ const Carousel = ({ data }) => {
             style={[styles.card, cardStyle]}
             {...(isCurrentCard ? panResponder.panHandlers : {})}
           >
-            <Text style={styles.cardText}>{item}</Text>
+            <ImageBackground
+              source={{ uri: item.background }}
+              style={styles.cardBackground}
+              resizeMode="cover"
+            >
+              <View style={styles.textContainer}>
+                <Text style={styles.cardHeadline}>{item.heading}</Text>
+                <Text style={styles.cardSubtitle}>{item.subheading}</Text>
+              </View>
+            </ImageBackground>
           </Animated.View>
         );
       })

@@ -4,16 +4,18 @@ const themes = {
   light: {
     backgroundColor: '#F8F8F8',
     color: '#000000',
-    tabBarColor: '#181818',
+    tabBarColor: '#000000',
     tabBarActiveTintColor: '#FFFFFF',
     tabBarInactiveTintColor: '#979797',
+    headlineFontFamily: 'Bayon_400Regular',
   },
   dark: {
     backgroundColor: '#181818',
     color: '#FFFFFF',
-    tabBarColor: '#181818',
+    tabBarColor: '#000000',
     tabBarActiveTintColor: '#FFFFFF',
     tabBarInactiveTintColor: '#979797',
+    headlineFontFamily: 'Bayon_400Regular',
   },
 };
 

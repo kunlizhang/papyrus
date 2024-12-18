@@ -1,0 +1,46 @@
+[
+    {
+        "id":1,
+        "background":"https://i.abcnewsfe.com/a/c1680bac-964f-4d9e-a1c1-3791dd547c9b/Trump-Musk-1-gty-jm-241113_1731520186241_hpMain.jpg",
+        "heading":"Exploring Trump-Musk bromance: Can the two powerful personalities stay connected?",
+        "subheading":"Elon Musk will lead the \"Department Of Government Efficiency.\"",
+        "authors":[
+            "Malka Abramoff",
+            "Doc Louallen"
+        ],
+        "date":"November 14, 2024",
+        "tags":[
+            "politics", 
+            "us news",
+            "technology"
+        ]
+    },
+    {
+        "id":2,
+        "background":"https://static01.nyt.com/images/2024/12/09/multimedia/09NEW-HANDSOME-04-khlg/09NEW-HANDSOME-04-khlg-superJumbo.jpg?quality=75&auto=webp",
+        "heading":"The Rise of the Noodle Boys",
+        "subheading":"As an era of macho politics sets in, sinewy stars like Timothée Chalamet, Dominic Sessa and Mark Eydelshteyn embody a slinky alternative image of white masculinity in American pop culture.",
+        "authors":[
+            "Jacob Gallagher"
+        ],
+        "date":"December 16, 2024",
+        "tags":[
+            "celebrity", 
+            "media"
+        ]
+    },
+    {
+        "id":3,
+        "background":"https://www.inquirer.com/resizer/v2/C3PFGZR7NJGDRJWUOUU6KB44WA.jpg?auth=1be138fb3a6a0d234c09c4f97bf1c2bf117d37130b0f51b887ad3fbc18ec1d33&width=800&height=533&smart=true",
+        "heading":"The real Jason Kelce reacts to Philly’s look-alike contest",
+        "subheading":"The former Eagles center has a new social media profile picture after one fan made him do a double take.",
+        "authors":[
+            "Ariel Simpson"
+        ],
+        "date":"December 17, 2024",
+        "tags":[
+            "sports",
+            "celebrity"
+        ]
+    }
+]
