@@ -16,7 +16,7 @@ const Carousel = ({ data }) => {
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (_, gesture) => {
       position.setValue({
-        x: gesture.dx / 4,
+        x: gesture.dx / 2,
         y: 0
       });
     },
@@ -45,7 +45,7 @@ const Carousel = ({ data }) => {
   });
 
   const onSwipeComplete = (direction) => {
-    const nextIndex = direction === 'right' ? currentIndex + 1 : currentIndex + 1;
+    const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex < data.length ? nextIndex : 0);
 
     position.setValue({ x: 0, y: 0 });
@@ -54,34 +54,46 @@ const Carousel = ({ data }) => {
   const renderCards = () => {
     return data
       .map((item, index) => {
-        if (index < currentIndex) return null;
 
         const isCurrentCard = index === currentIndex;
-
-        const cardStyle = isCurrentCard
+        const isNextCard = index === (currentIndex + 1) % data.length;
+  
+        const currentCardStyle = isCurrentCard
           ? {
               ...position.getLayout(),
+              opacity: 1,
               transform: [
                 {
-                  rotate: position.x.interpolate({
-                    inputRange: [-width / 2, 0, width / 2],
-                    outputRange: ['-10deg', '0deg', '10deg'],
+                  translateX: position.x.interpolate({
+                    inputRange: [-width, 0, width],
+                    outputRange: [0, 0, 0],
                     extrapolate: 'clamp',
                   }),
                 },
               ],
             }
           : { opacity: 0 };
+        
+        const nextCardStyle = isNextCard
+          ? {
+              opacity: position.x.interpolate({
+                inputRange: [-width, 0, width],
+                outputRange: [1, 0, 1],
+                extrapolate: 'clamp',
+              }),
+            }
+          : { opacity: 0 }; 
 
+        const panHandlers = isCurrentCard ? panResponder.panHandlers : {};
+  
         return (
           <Animated.View
             key={index}
-            style={[styles.card, cardStyle]}
-            {...(isCurrentCard ? panResponder.panHandlers : {})}
+            style={isCurrentCard ? [styles.currentCard, currentCardStyle] : [styles.nextCard, nextCardStyle]}
+            {...panHandlers}
           >
             <ImageBackground
               source={{ uri: item.background }}
-              style={styles.cardBackground}
               resizeMode="cover"
             >
               <View style={styles.textContainer}>
@@ -92,8 +104,7 @@ const Carousel = ({ data }) => {
           </Animated.View>
         );
       })
-      .reverse();
-  };
+  };  
 
   return <View style={styles.container}>{renderCards()}</View>;
 };

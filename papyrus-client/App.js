@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, Animated, PanResponder, Dimensions, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useFonts, Bayon_400Regular } from '@expo-google-fonts/bayon';
+import { useFonts } from 'expo-font';
+import { Bayon_400Regular } from '@expo-google-fonts/bayon';
+import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import Bookmarks from './components/Bookmarks';
@@ -17,7 +19,12 @@ function MainApp() {
 
   const [fontsLoaded] = useFonts({
     Bayon_400Regular,
+    LibreBaskerville_400Regular
   });
+
+  if (!fontsLoaded) {
+    return <Text>Loading Fonts...</Text>;
+  }
 
   return (
     <Tab.Navigator

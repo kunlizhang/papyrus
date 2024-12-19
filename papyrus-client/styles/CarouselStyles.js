@@ -7,22 +7,31 @@ const createStyles = (theme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
       backgroundColor: theme.tabBarColor,
     },
-    card: {
+    currentCard: {
       position: 'absolute',
       width: width,
       height: height,
       backgroundColor: theme.backgroundColor,
-      borderRadius: 50,
+      borderRadius: 0,
+      overflow: 'hidden',
+      opacity: 1,
+      zIndex: 5,
+    },
+    nextCard: {
+      position: 'absolute',
+      width: width,
+      height: height,
+      backgroundColor: theme.backgroundColor,
+      borderRadius: 0,
       overflow: 'hidden',
     },
     textContainer: {
       justifyContent: 'flex-end',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
       paddingHorizontal: '8%',
-      paddingBottom: '32%',
+      paddingBottom: '50%',
       height: '100%',
     },
     cardHeadline: {
@@ -36,14 +45,12 @@ const createStyles = (theme) =>
       fontFamily: theme.headlineFontFamily
     },
     cardSubtitle: {
-      fontSize: scale(14),
+      fontSize: scale(12),
+      lineHeight: scale(18),
       fontWeight: 'bold',
       textAlign: 'left',
       color: 'white',
-    },
-    cardBackground: {
-      width: '101%',
-      height: '101%',
+      fontFamily: theme.paragraphFontFamily
     },
   });
 

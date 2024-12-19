@@ -823,6 +823,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/bayon/-/bayon-0.2.3.tgz#bb0225dd7b5ff19867561f53b58b37ebc346c017"
   integrity sha512-30Rjk3i7dNVnLdiaClgybDtgJ/lvaHG1suew3r4SFy08gdMafDsyE3i/+Knwxg8FGP7V0LsjrYdbodXplUdMkg==
 
+"@expo-google-fonts/libre-baskerville@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/libre-baskerville/-/libre-baskerville-0.2.3.tgz#37d6109700396d69b49a68027c5cd3382a6cf956"
+  integrity sha512-gXPzip1lzPOsbsVQbkb8XrCjgx7R73jZno407RucFo615ojT9bi7rAT+h5JOp9NbMY6zJm0g8UPntUtlywVE1w==
+
 "@expo/bunyan@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.1.tgz#ab9e17e36c71c704a0ce72168378a487368da736"

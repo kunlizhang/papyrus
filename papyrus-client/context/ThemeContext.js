@@ -8,14 +8,16 @@ const themes = {
     tabBarActiveTintColor: '#FFFFFF',
     tabBarInactiveTintColor: '#979797',
     headlineFontFamily: 'Bayon_400Regular',
+    paragraphFontFamily: 'LibreBaskerville_400Regular'
   },
   dark: {
-    backgroundColor: '#181818',
+    backgroundColor: '#000000',
     color: '#FFFFFF',
     tabBarColor: '#000000',
     tabBarActiveTintColor: '#FFFFFF',
     tabBarInactiveTintColor: '#979797',
     headlineFontFamily: 'Bayon_400Regular',
+    paragraphFontFamily: 'LibreBaskerville_400Regular'
   },
 };
 
