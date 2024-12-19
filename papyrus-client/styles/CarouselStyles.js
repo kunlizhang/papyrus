@@ -52,6 +52,15 @@ const createStyles = (theme) =>
       color: 'white',
       fontFamily: theme.paragraphFontFamily
     },
+    buttonContainer: {
+      position: 'absolute',
+      width: width,
+      textAlign: "center",
+      paddingBottom: "31%",
+      fontSize: scale(40), 
+      color: '#fff', 
+      fontFamily: theme.iconFontFamily
+    },
   });
 
 export default createStyles;

@@ -828,6 +828,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/libre-baskerville/-/libre-baskerville-0.2.3.tgz#37d6109700396d69b49a68027c5cd3382a6cf956"
   integrity sha512-gXPzip1lzPOsbsVQbkb8XrCjgx7R73jZno407RucFo615ojT9bi7rAT+h5JOp9NbMY6zJm0g8UPntUtlywVE1w==
 
+"@expo-google-fonts/source-sans-3@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/source-sans-3/-/source-sans-3-0.2.3.tgz#21933a3ecd7cda1ced4f54419b8e7af656d273f1"
+  integrity sha512-mip60jZRNMppMrzi9AGhODUgiWosF+V519C4ucH+/q/OePoOFhxuyNuhUPJqr4g4VTdvmM8isEKTKDfgmyYAmg==
+
 "@expo/bunyan@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.1.tgz#ab9e17e36c71c704a0ce72168378a487368da736"

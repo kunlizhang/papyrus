@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, Animated, PanResponder, Dimensions, ImageBackground } from 'react-native';
+import { View, Text, Animated, PanResponder, Dimensions, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import createStyles from '../styles/CarouselStyles';
 
 const { width, height } = Dimensions.get('window');
 
-const Carousel = ({ data }) => {
+const Carousel = React.memo(({ data }) => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
 
@@ -15,13 +15,22 @@ const Carousel = ({ data }) => {
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (_, gesture) => {
-      position.setValue({
-        x: gesture.dx / 2,
-        y: 0
-      });
+      const minSwipeThreshold = 30;
+          if (Math.abs(gesture.dx) > minSwipeThreshold) {
+        position.setValue({
+          x: gesture.dx / 1.5,
+          y: 0,
+        });
+      } else {
+        position.setValue({
+          x: 0,
+          y: 0,
+        });
+      }
     },
     onPanResponderRelease: (_, gesture) => {
       const swipeThreshold = 120;
+      const swipeUpThreshold = -120;
 
       if (gesture.dx > swipeThreshold) {
         Animated.timing(position, {
@@ -35,6 +44,12 @@ const Carousel = ({ data }) => {
           duration: 300,
           useNativeDriver: false,
         }).start(() => onSwipeComplete('left'));
+      } else if (gesture.dy < swipeUpThreshold) {
+        handleButtonPress();
+        Animated.spring(position, {
+          toValue: { x: 0, y: 0 },
+          useNativeDriver: false,
+        }).start();
       } else {
         Animated.spring(position, {
           toValue: { x: 0, y: 0 },
@@ -43,6 +58,10 @@ const Carousel = ({ data }) => {
       }
     },
   });
+
+  const handleButtonPress = () => {
+    console.log("Button Pressed");
+  };
 
   const onSwipeComplete = (direction) => {
     const nextIndex = currentIndex + 1;
@@ -99,6 +118,7 @@ const Carousel = ({ data }) => {
               <View style={styles.textContainer}>
                 <Text style={styles.cardHeadline}>{item.heading}</Text>
                 <Text style={styles.cardSubtitle}>{item.subheading}</Text>
+                <Text style={styles.buttonContainer} onPress={handleButtonPress}>⌃</Text>
               </View>
             </ImageBackground>
           </Animated.View>
@@ -106,7 +126,12 @@ const Carousel = ({ data }) => {
       })
   };  
 
-  return <View style={styles.container}>{renderCards()}</View>;
-};
+  return (
+    <View style={styles.container}>
+      {renderCards()}
+    </View>
+  )
+  
+});
 
 export default Carousel;
