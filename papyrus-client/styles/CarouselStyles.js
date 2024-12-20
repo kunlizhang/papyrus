@@ -61,6 +61,26 @@ const createStyles = (theme) =>
       color: '#fff', 
       fontFamily: theme.iconFontFamily
     },
+    articleView: {
+      position: 'absolute',
+      width: width,
+      height: height * 0.95,
+      backgroundColor: '#fff',
+      overflow: 'hidden',
+    },
+    webView: {
+      marginTop: "13%",
+      overflow: 'hidden',
+    },
+    closeArticle: {
+      width: width,
+      textAlign: "center",
+      height: scale(40),
+      fontSize: scale(40),
+      color: 'black', 
+      marginTop: '19%',
+      fontFamily: theme.iconFontFamily,
+    }
   });
 
 export default createStyles;
