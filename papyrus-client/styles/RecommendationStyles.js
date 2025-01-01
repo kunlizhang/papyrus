@@ -80,7 +80,7 @@ const createStyles = (theme) =>
       color: 'black', 
       marginTop: '19%',
       fontFamily: theme.iconFontFamily,
-    }
+    },
   });
 
 export default createStyles;

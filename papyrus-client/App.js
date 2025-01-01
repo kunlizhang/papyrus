@@ -6,12 +6,14 @@ import { useFonts } from 'expo-font';
 import { Bayon_400Regular } from '@expo-google-fonts/bayon';
 import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
 import { SourceSans3_600SemiBold } from '@expo-google-fonts/source-sans-3';
+import { scale } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import Bookmarks from './components/Bookmarks';
 import Profile from './components/Profile';
 import Recommendations from './components/Recommendations';
 import Search from './components/Search';
+import CarouselData from './assets/mock-recommendations.json';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,12 +51,15 @@ function MainApp() {
         tabBarInactiveTintColor: theme.tabBarInactiveTintColor,
         tabBarStyle: {
           backgroundColor: theme.tabBarColor,
-          borderTopWidth: 0
+          borderTopWidth: 0,
+          height: scale(65),
         },
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Explore" component={Recommendations} />
+      <Tab.Screen name="Explore">
+        {() => <Recommendations data={CarouselData} />}
+      </Tab.Screen>
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Bookmarks" component={Bookmarks} />
       <Tab.Screen name="Profile" component={Profile} />
