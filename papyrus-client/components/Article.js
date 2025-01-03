@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,9 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
     const { theme } = useTheme();
     const styles = createStyles(theme);
     const navigation = useNavigation();
+
+    // TODO: make global
+    const [bookmarked, setBookmarked] = useState(false);
 
     React.useEffect(() => {
         navigation.setOptions({
@@ -43,11 +46,21 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
             />
             <View style={styles.navBar}>
                 <Text style={styles.buttonContainer} onPress={handleSwipeDown}>⌃</Text>
-                <Text style={styles.skipButton} onPress={() => handleSkip(currentArticle)}>
+                <Text style={styles.skipButton} onPress={() => {
+                    handleSkip(currentArticle); 
+                    handleSwipeDown();
+                }}>
                     <MaterialIcons name="close" size={theme.iconSize} color={theme.tabBarActiveTintColor} />
                 </Text>
-                <Text style={styles.bookmarkButton} onPress={() => handleBookmark(currentArticle)}>
-                    <MaterialIcons name="bookmark" size={theme.iconSize} color={theme.tabBarActiveTintColor} />
+                <Text style={styles.bookmarkButton} onPress={() => {
+                    handleBookmark(currentArticle); 
+                    setBookmarked(!bookmarked);
+                }}>
+                    {
+                        bookmarked ? 
+                        <MaterialIcons name="bookmark" size={theme.iconSize} color={theme.tabBarActiveTintColor} /> : 
+                        <MaterialIcons name="bookmark-border" size={theme.iconSize} color={theme.tabBarActiveTintColor} />
+                    }
                 </Text>
             </View>
         </View>

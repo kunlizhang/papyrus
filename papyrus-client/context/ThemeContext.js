@@ -10,7 +10,9 @@ const themes = {
     headlineFontFamily: 'Bayon_400Regular',
     paragraphFontFamily: 'LibreBaskerville_400Regular',
     iconFontFamily: 'SourceSans3_600SemiBold',
-    iconSize: 26
+    iconSize: 26,
+    buttonFill: '#E9E9E9',
+    accentColor: '#2E4D08'
   }
 };
 

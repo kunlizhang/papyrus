@@ -61,7 +61,9 @@ function MainApp() {
         {() => <Recommendations data={CarouselData} />}
       </Tab.Screen>
       <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Bookmarks" component={Bookmarks} />
+      <Tab.Screen name="Bookmarks" >
+        {() => <Bookmarks data={CarouselData} />}
+      </Tab.Screen>
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
