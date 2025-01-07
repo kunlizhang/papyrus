@@ -14,3 +14,15 @@ export function handleRead(article) {
 export function handleSkip(article) {
     console.log("Skipping article: " + article.id);
 }
+
+export function addInterest(interest) {
+    console.log("Adding interest: " + interest);
+}
+
+export function deleteInterest(interest) {
+    console.log("Deleting interest: " + interest);
+}
+
+export function addRestrictedSource(interest) {
+    console.log("Adding source: " + interest);
+}
