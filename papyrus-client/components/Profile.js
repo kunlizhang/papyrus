@@ -5,6 +5,7 @@ import createStyles from '../styles/ProfileStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { addInterest, deleteInterest, addRestrictedSource } from '../functions/user-actions';
+import { scale } from 'react-native-size-matters';
 
 const Profile = () => {
   const { theme } = useTheme();
@@ -83,7 +84,7 @@ const Profile = () => {
         <TouchableOpacity
           style={styles.editImage}
         >
-          <Icon name="edit" size={20} /> 
+          <Icon name="edit" size={scale(20)} /> 
         </TouchableOpacity>
       </View>
       <View>
@@ -114,7 +115,7 @@ const Profile = () => {
           {exampleInterests.map((item, index) => (
               <View key={index} style={styles.interestElement}>
                 <Text style={styles.interestElementText}>{item}</Text>
-                <Icon name="clear" size={14} onPress={() => handleDeleteInterest(item)}/>
+                <Icon name="clear" size={scale(14)} onPress={() => handleDeleteInterest(item)}/>
               </View>
             ))
           }
@@ -143,7 +144,7 @@ const Profile = () => {
           {exampleSources.map((item, index) => (
               <View key={index} style={styles.sourceElement}>
                 <Text style={styles.sourceElementText}>{item}</Text>
-                <Icon name="clear" size={14} onPress={() => handleDeleteInterest(item)}/>
+                <Icon name="clear" size={scale(14)} onPress={() => handleDeleteInterest(item)}/>
               </View>
             ))
           }

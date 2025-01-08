@@ -9,6 +9,7 @@ const themes = {
     tabBarInactiveTintColor: '#979797',
     headlineFontFamily: 'Bayon_400Regular',
     paragraphFontFamily: 'LibreBaskerville_400Regular',
+    paragraphBoldFontFamily: 'LibreBaskerville_700Bold',
     iconFontFamily: 'SourceSans3_600SemiBold',
     iconSize: 26,
     buttonFill: '#E9E9E9',

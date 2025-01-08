@@ -31,7 +31,7 @@ const createStyles = (theme) =>
     userName: {
         textAlign: 'right',
         fontSize: scale(16),
-        fontFamily: theme.paragraphFontFamily,
+        fontFamily: theme.paragraphBoldFontFamily,
         color: 'black',
         marginTop: scale(14)
     }, 

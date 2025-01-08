@@ -88,8 +88,7 @@ const createStyles = (theme) =>
     },
     articleContainer: {
         padding: scale(20),
-        paddingTop: scale(10),
-        paddingBottom: scale(10),
+        paddingVertical: scale(20),
         borderBottomColor: theme.buttonFill,
         borderBottomWidth: 2,
     },

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
 import { Bayon_400Regular } from '@expo-google-fonts/bayon';
-import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
+import { LibreBaskerville_400Regular, LibreBaskerville_700Bold } from '@expo-google-fonts/libre-baskerville';
 import { SourceSans3_600SemiBold } from '@expo-google-fonts/source-sans-3';
 import { scale } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -23,6 +23,7 @@ function MainApp() {
   const [fontsLoaded] = useFonts({
     Bayon_400Regular,
     LibreBaskerville_400Regular,
+    LibreBaskerville_700Bold,
     SourceSans3_600SemiBold
   });
 
@@ -60,8 +61,10 @@ function MainApp() {
       <Tab.Screen name="Explore">
         {() => <Recommendations data={CarouselData} />}
       </Tab.Screen>
-      <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="Bookmarks" >
+      <Tab.Screen name="Search">
+        {() => <Search data={CarouselData} />}
+      </Tab.Screen>
+      <Tab.Screen name="Bookmarks">
         {() => <Bookmarks data={CarouselData} />}
       </Tab.Screen>
       <Tab.Screen name="Profile" component={Profile} />
