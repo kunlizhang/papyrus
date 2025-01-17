@@ -1,16 +1,17 @@
 import requests
 import psycopg2
+import os
 
-DBNAME='papyrus'
-HOSTNAME='papyrus.ch2264qkork9.us-east-1.rds.amazonaws.com'
-USERNAME='annazhou'
-PASSWORD='Papyrus.2024$'
-PORT=5432
+DBNAME=os.getenv('DBNAME')
+HOSTNAME=os.getenv('HOSTNAME')
+USERNAME=os.getenv('USERNAME')
+PASSWORD=os.getenv('PASSWORD')
+PORT=os.getenv('PORT')
+APIKEY=os.getenv('APIKEY')
 
 conn = psycopg2.connect(dbname=DBNAME, host=HOSTNAME, user=USERNAME, password=PASSWORD, port=PORT)
 cur = conn.cursor()
 
-APIKEY = '77275bc14f64499786d72ef46caab9ae'
 URL = 'https://newsapi.org/v2/top-headlines'
 REMOVED = '[Removed]'
 
@@ -21,6 +22,7 @@ params = {
     'page': 1
     }
 res = requests.get(URL, params=params)
+cnt = 0
 if res.status_code != 200:
     print('{rs.status_code} status code')
 else:
@@ -35,7 +37,8 @@ else:
             desc = article['description'] if article['description'] != None else ""
             values = (article['title'], article['url'], desc, article['urlToImage'])
             cur.execute("INSERT INTO articles (article_name, article_url, article_desc, cover_image_url) VALUES (%s, %s, %s, %s)", values)
+            cnt += 1
 
 conn.commit()
-print('Records created successfully')
+print(f'{cnt} records created successfully')
 conn.close()
