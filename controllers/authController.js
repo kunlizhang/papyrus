@@ -1,5 +1,8 @@
 // controllers/authController.js
 const bcrypt = require('bcrypt');
+const crypto = require('crypto'); // For generating secure session tokens
+
+const sessions = {}; 
 
 // User Registration
 const registerUser = async (req, res) => {
@@ -53,7 +56,7 @@ const loginUser = async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-        console.log(`error: Username does not exist`)
+      console.log(`error: Username does not exist`)
       return res.status(400).json({ error: 'Username does not exist' });
     }
 
@@ -66,15 +69,53 @@ const loginUser = async (req, res) => {
         console.log(`error: Password is not correct`)
       return res.status(400).json({ error: 'Invalid password' });
     }
+    // Generate a session token
+    const sessionToken = crypto.randomBytes(32).toString('hex');
 
-    // If the login is successful, return user details (excluding password)
-    console.log(`User successfully logged in`)
-    delete user.password; // Don't return the password
-    res.status(200).json({ message: 'Login successful', user });
+    // Store the session in memory (keyed by sessionToken)
+    sessions[sessionToken] = { userId: user.id, username: user.username };
+
+
+    // Set the session token as an HttpOnly cookie
+    res.cookie('session_token', sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    // Respond with success
+    res.status(200).json({ message: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err.stack);
     res.status(500).json({ error: 'Database error' });
   }
 };
 
-module.exports = { registerUser, loginUser };
+// Middleware to authenticate users
+const authenticateUser = (req, res, next) => {
+  const sessionToken = req.cookies.session_token;
+
+  if (!sessionToken || !sessions[sessionToken]) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Attach user info to the request object for downstream handlers
+  req.user = sessions[sessionToken];
+  next();
+};
+
+// User Logout
+const logoutUser = (req, res) => {
+  const sessionToken = req.cookies.session_token;
+
+  if (sessionToken) {
+    // Remove the session from the in-memory store
+    delete sessions[sessionToken];
+  }
+
+  // Clear the cookie
+  res.clearCookie('session_token');
+  res.status(200).json({ message: 'Logout successful' });
+};
+
+module.exports = { registerUser, loginUser, authenticateUser, logoutUser };
