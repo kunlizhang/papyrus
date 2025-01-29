@@ -1,29 +1,37 @@
-// app.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { Client } = require('pg'); // Import pg Client
+const { Client } = require('pg');
+const cookieParser = require('cookie-parser'); // Added for cookie handling
 const authRoutes = require('./routes/auth');
 const dataRoutes = require('./routes/data');
 
 const app = express();
 
-// Enable CORS for all routes
-app.use(cors()); 
+// Enable CORS with credentials support
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000', // React app URL
+    credentials: true, // Allow cookies to be sent with requests
+  })
+);
 
-// To parse incoming JSON request bodies
-app.use(express.json()); 
+// Parse incoming JSON request bodies
+app.use(express.json());
+
+// Parse cookies
+app.use(cookieParser()); // Added cookie parser middleware
 
 // Create a new PostgreSQL client using environment variables
 const client = new Client({
-  host: process.env.RDS_HOSTNAME, // RDS host
-  user: process.env.RDS_USERNAME, // RDS user
-  password: process.env.RDS_PASSWORD, // RDS password
-  port: process.env.RDS_PORT, // RDS port (5432)
-  database: process.env.RDS_DB_NAME, // Database name (papyrus)
+  host: process.env.RDS_HOSTNAME,
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  port: process.env.RDS_PORT,
+  database: process.env.RDS_DB_NAME,
   ssl: {
-    rejectUnauthorized: false // Use SSL for AWS RDS
-  }
+    rejectUnauthorized: false, // Use SSL for AWS RDS
+  },
 });
 
 // Connect to the PostgreSQL database
@@ -36,7 +44,7 @@ client.connect((err) => {
 });
 
 // Make the client available throughout the app
-app.set('dbClient', client); // You can access the db client in routes using req.app.get('dbClient')
+app.set('dbClient', client);
 
 // Use auth routes
 app.use('/auth', authRoutes);
@@ -51,6 +59,12 @@ process.on('SIGINT', () => {
     console.log('Database connection closed.');
     process.exit();
   });
+});
+
+// Global error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
 // Start the server
