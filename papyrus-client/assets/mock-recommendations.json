@@ -1,0 +1,80 @@
+[
+    {
+        "id":1,
+        "background":"https://i.abcnewsfe.com/a/c1680bac-964f-4d9e-a1c1-3791dd547c9b/Trump-Musk-1-gty-jm-241113_1731520186241_hpMain.jpg",
+        "heading":"Exploring Trump-Musk bromance: Can the two powerful personalities stay connected?",
+        "subheading":"Elon Musk will lead the \"Department Of Government Efficiency.\"",
+        "authors":[
+            "Malka Abramoff",
+            "Doc Louallen"
+        ],
+        "date":"November 14, 2024",
+        "tags":[
+            "politics", 
+            "us",
+            "technology"
+        ],
+        "source": "https://abcnews.go.com/Politics/exploring-trump-musk-bromance-powerful-personalities/story?id=115812951"
+    },
+    {
+        "id":2,
+        "background":"https://static01.nyt.com/images/2024/12/09/multimedia/09NEW-HANDSOME-04-khlg/09NEW-HANDSOME-04-khlg-superJumbo.jpg?quality=75&auto=webp",
+        "heading":"The Rise of the Noodle Boys",
+        "subheading":"As an era of macho politics sets in, sinewy stars like Timothée Chalamet, Dominic Sessa and Mark Eydelshteyn embody a slinky alternative image of white masculinity in American pop culture.",
+        "authors":[
+            "Jacob Gallagher"
+        ],
+        "date":"December 16, 2024",
+        "tags":[
+            "celebrity", 
+            "media"
+        ],
+        "source": "https://www.nytimes.com/2024/12/15/style/hollywood-men-stars-chalamet-sessa-wolfhard-noodle.html"
+    },
+    {
+        "id":3,
+        "background":"https://cdn.theathletic.com/app/uploads/2018/12/06130647/kelce_120618.jpg",
+        "heading":"The real Jason Kelce reacts to Philly’s look-alike contest",
+        "subheading":"The former Eagles center has a new social media profile picture after one fan made him do a double take.",
+        "authors":[
+            "Ariel Simpson"
+        ],
+        "date":"December 17, 2024",
+        "tags":[
+            "sports",
+            "celebrity"
+        ],
+        "source": "https://www.inquirer.com/eagles/jason-kelce-lookalike-contest-reaction-winner-20241217.html"
+    },
+    {
+        "id":4,
+        "background":"https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/OM7YSPNCFJ3H57ZONDQ54JQFEU.jpg&w=1200",
+        "heading":"Supreme Court to hear challenge to banning TikTok in U.S.",
+        "subheading":"The justices will quickly take up the constitutionality of a federal law that would shutter TikTok next month unless the company divests from Chinese ownership.",
+        "authors":[
+            "Ann E. Marimow",
+            "Eva Dou"
+        ],
+        "date":"December 18, 2024",
+        "tags":[
+            "us",
+            "technology"
+        ],
+        "source": "https://www.washingtonpost.com/politics/2024/12/18/supreme-court-tik-tok-ban-challenge/"
+    },
+    {
+        "id":5,
+        "background":"https://static01.nyt.com/images/2024/12/18/multimedia/18uk-tate-wtzp/18uk-tate-wtzp-superJumbo.jpg?quality=75&auto=webp",
+        "heading":"Police Can Seize £2 Million From Andrew Tate Accounts, U.K. Court Rules",
+        "subheading":"The online influencer has bragged about refusing to pay taxes. A London court found that he and his brother had not paid taxes on more than £21 million in business revenue.",
+        "authors":[
+            "Lynsey Chutel"
+        ],
+        "date":"December 18, 2024",
+        "tags":[
+            "europe",
+            "entertainment"
+        ],
+        "source": "https://www.nytimes.com/2024/12/18/world/europe/uk-andrew-tate-taxes.html"
+    }
+]
