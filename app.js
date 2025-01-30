@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const { Client } = require('pg');
 const cookieParser = require('cookie-parser'); // Added for cookie handling
-const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 const dataRoutes = require('./routes/data');
+const articleRoutes = require('./routes/articles');
 
 const app = express();
 
@@ -47,8 +48,9 @@ client.connect((err) => {
 app.set('dbClient', client);
 
 // Use auth routes
-app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 app.use('/data', dataRoutes);
+app.use('/articles', articleRoutes);
 
 // Gracefully close the DB connection when the app is terminated
 process.on('SIGINT', () => {
