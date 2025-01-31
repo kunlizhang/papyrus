@@ -1,5 +1,6 @@
 import requests
 import psycopg2
+import datetime
 import os
 
 DBNAME=os.getenv('DBNAME')
@@ -35,8 +36,10 @@ else:
             if article['title'] == REMOVED:
                 continue
             desc = article['description'] if article['description'] != None else ""
-            values = (article['title'], article['url'], desc, article['urlToImage'])
-            cur.execute("INSERT INTO articles (article_name, article_url, article_desc, cover_image_url) VALUES (%s, %s, %s, %s)", values)
+            dt = datetime.date.today()
+            date = f"{dt.year}/{dt.month}/{dt.day}"
+            values = (article['title'], article['url'], desc, article['urlToImage'], date)
+            cur.execute("INSERT INTO articles (article_name, article_url, article_desc, cover_image_url, date) VALUES (%s, %s, %s, %s, %s)", values)
             cnt += 1
 
 conn.commit()
