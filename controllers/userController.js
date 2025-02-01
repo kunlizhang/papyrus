@@ -1,5 +1,4 @@
 // controllers/authController.js
-const bcrypt = require('bcrypt');
 const PREDEFINED_INTERESTS = [
   'Technology', 'Sports', 'Music', 'Movies', 
   'Science', 'Politics', 'Finance', 'Health', 

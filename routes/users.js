@@ -16,7 +16,7 @@ router.post('/authenticate', authenticateUser);
 router.post('/logout', logoutUser);
 
 // Route for getting user articles
-router.get('/getArticles', getUserSavedArticles);
+router.get('/getSavedArticles', getUserSavedArticles);
 
 // Route for adding user interest
 router.post('/addInterest', addUserInterest);
