@@ -4,6 +4,6 @@ const { getRecentArticles } = require('../controllers/dataController');
 const router = express.Router();
 
 // Route for user registration
-router.post('/getArticles', getRecentArticles);
+router.get('/getRecentArticles', getRecentArticles);
 
 module.exports = router;
