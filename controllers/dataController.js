@@ -1,6 +1,4 @@
-//////////////
-/// GetRecentArticles ///
-////////////
+// GET: Get Recent Articles
 const getRecentArticles = async (req, res) => {  
   // currentDate = '2025-01-31' = January 31, 2025
   const currentDate= req.body.currentDate;

@@ -1,6 +1,6 @@
 // controllers/articleController.js
 
-// Save an article for a user
+// POST: Save article
 async function saveArticle(req, res) {
   const dbClient = req.app.get('dbClient');
   const { user_id, article_id } = req.body;
@@ -39,7 +39,7 @@ async function saveArticle(req, res) {
 }
 
   
-  // Record a clicked article
+  // POST: Clicked Article
   async function clickArticle(req, res) {
     const dbClient = req.app.get('dbClient');
     const { user_id, article_id } = req.body;

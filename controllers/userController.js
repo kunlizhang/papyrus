@@ -1,4 +1,4 @@
-// controllers/authController.js
+// controllers/userController.js
 const PREDEFINED_INTERESTS = [
   'Technology', 'Sports', 'Music', 'Movies', 
   'Science', 'Politics', 'Finance', 'Health', 
@@ -10,7 +10,7 @@ const crypto = require('crypto'); // For generating secure session tokens
 
 const sessions = {}; 
 
-// User Registration
+// POST: User Registration
 const registerUser = async (req, res) => {
   const { username, password } = req.body;
   console.log(username)
@@ -49,7 +49,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// User Login
+// POST: User Login
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
@@ -124,9 +124,7 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
-//////////////
-/// Saved ///
-////////////
+// GET: get Saved Articles for user
 const getUserSavedArticles = async (req, res) => {
   const userId = req.user.id;
 
@@ -149,9 +147,7 @@ const getUserSavedArticles = async (req, res) => {
   }
 };
 
-////////////////////
-// Add Interests //
-//////////////////
+// POST: Add User Interest
 const addUserInterest = async (req, res) => {
   const { interest } = req.body;
   const userId = req.user.id; // Assuming you have authentication middleware
@@ -187,9 +183,7 @@ const addUserInterest = async (req, res) => {
   }
 };
 
-///////////////////////
-// Remove Interests //
-/////////////////////
+// POST: Remove User Interest
 const removeUserInterest = async (req, res) => {
   const { interest } = req.body;
   const userId = req.user.id;
