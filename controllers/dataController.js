@@ -2,7 +2,6 @@
 const getRecentArticles = async (req, res) => {  
   // currentDate = '2025-01-31' = January 31, 2025
   const currentDate= req.body.currentDate;
-  console.log(currentDate);
 
   try {
     const dbClient = req.app.get('dbClient');

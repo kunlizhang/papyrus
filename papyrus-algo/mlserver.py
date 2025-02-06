@@ -1,14 +1,18 @@
 import httpx
 from fastapi import FastAPI, Depends
+from datetime import datetime
 
-BACKEND_URL = "https://example.com"
+BACKEND_URL = "http://localhost:3000"
 
 class ExternalDataClient:
     def __init__(self, base_url: str):
         self.base_url = base_url
 
     async def get_new_articles(self):
-        pass
+        current_date = datetime.today().strftime("%Y-%m-%d")
+        async with httpx.AsyncClient() as client:
+            response = await client.request("GET", BACKEND_URL + "/data/getRecentArticles", json={"currentDate": current_date})
+            return response.json()
 
     async def get_user_data(self, user_id: str):
         pass
@@ -21,7 +25,7 @@ def get_external_data_client():
     return external_data_client
 
 @app.get("/getRecommendations")
-def get_recommendations(
+async def get_recommendations(
     user_id: str, 
     api_client: ExternalDataClient = Depends(get_external_data_client)):
     """
@@ -30,4 +34,5 @@ def get_recommendations(
     ML server runs model for that user for all the new data
     ML server returns ordered list of articles
     """
-    return {"message": "Hello World"}
+    new_articles = await api_client.get_new_articles()
+    return new_articles
