@@ -1,9 +1,11 @@
-// routes/auth.js
+// routes/data.js
 const express = require('express');
-const { getRecentArticles } = require('../controllers/dataController');
+const { getRecentArticles, getArticlesData} = require('../controllers/dataController');
 const router = express.Router();
 
-// Route for user registration
+// Route for getting articles 
 router.get('/getRecentArticles', getRecentArticles);
 
+// Route for getting article data
+router.get('/getArticlesData', getArticlesData);
 module.exports = router;

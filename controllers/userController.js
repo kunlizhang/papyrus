@@ -88,7 +88,7 @@ const loginUser = async (req, res) => {
       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-
+    console.log(res)
     // Respond with success
     res.status(200).json({ message: 'Login successful' });
   } catch (err) {
@@ -126,7 +126,7 @@ const logoutUser = (req, res) => {
 
 // GET: get Saved Articles for user
 const getUserSavedArticles = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.userId;
 
   try {
     const dbClient = req.app.get('dbClient');
