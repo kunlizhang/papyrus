@@ -31,7 +31,7 @@ const getArticlesData = async (req, res) => {
     
     // Retrieve saved articles sorted by most recently saved
     const result = await dbClient.query(`
-      SELECT * FROM articles WHERE id = ANY($1)`, [articleIds]);
+      SELECT * FROM articles WHERE article_id = ANY($1)`, [articleIds]);
 
     res.json(result.rows);
   } catch (error) {
