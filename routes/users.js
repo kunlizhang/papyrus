@@ -1,6 +1,6 @@
 // routes/auth.js
 const express = require('express');
-const { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, addUserInterest, removeUserInterest, verifySession } = require('../controllers/userController');
+const { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, addUserInterest, removeUserInterest } = require('../controllers/userController');
 const router = express.Router();
 
 // Route for user registration

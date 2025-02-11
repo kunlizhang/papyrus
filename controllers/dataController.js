@@ -21,10 +21,10 @@ const getRecentArticles = async (req, res) => {
 
 // GET: Get Article Data by ID
 const getArticlesData = async (req, res) => {
-  const { articleIds } = req.body.articleIds; // Expecting articleIds in the request body
+  const articleIds = req.body.articleIds; // Expecting articleIds in the request body
 
   if (!Array.isArray(articleIds) || articleIds.length === 0) {
-    return res.status(400).json({ error: "articleIds must be a non-empty array" });
+    return res.status(400).json({ error: "articleIds must be a non-empty array"});
   }
   try {
     const dbClient = req.app.get('dbClient');
