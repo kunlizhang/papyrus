@@ -124,6 +124,10 @@ const verifySession = async (req, res, next) => {
     console.error('Error verifying session:', err);
     res.status(500).json({ error: 'Database error' });
   }
+  
+  // req.user = {user_id : 1}
+  // next();
+  // uncomment and comment everything else out for testing 
 };
 
 
@@ -178,6 +182,7 @@ const getUserSavedArticles = async (req, res) => {
 const getUserClickedArticles = async (req, res) => {
   try {
     const dbClient = req.app.get('dbClient');
+    console.log("getting clicked articles")
     
     // Get user_id from session (set by verifySession middleware)
     const userId = req.user.user_id;
