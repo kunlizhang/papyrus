@@ -16,12 +16,12 @@ class ExternalDataClient:
 
     async def get_article_data(self, article_ids: list):
         async with httpx.AsyncClient() as client:
-            response = await client.request("GET", BACKEND_URL + "/data/getArticleData", json={"articleIds": article_ids})
+            response = await client.request("GET", BACKEND_URL + "/data/getArticlesData", json={"articleIds": article_ids})
             return response.json()
 
     async def get_user_clicked(self, user_id: str):
         async with httpx.AsyncClient() as client:
-            response = await client.request("GET", BACKEND_URL + "/data/getClickedArticles", json={"user_id": user_id})
+            response = await client.request("GET", BACKEND_URL + "/users/getClickedArticles", json={"user_id": user_id})
             return response.json()
 
 app = FastAPI()
@@ -42,7 +42,13 @@ async def get_recommendations(
     ML server returns ordered list of articles
     """
     new_articles = await api_client.get_new_articles()
-    user_data = await api_client.get_user_clicked(user_id)
+    user_clicked_on = list(map(
+        lambda x: x["article_id"],
+        await api_client.get_user_clicked(user_id)
+    ))
+
+    # Get the data for the clicked-on articles
+    clicked_on_data = await api_client.get_article_data(user_clicked_on)
 
 
-    return new_articles
+    return clicked_on_data
