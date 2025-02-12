@@ -186,7 +186,7 @@ const getUserClickedArticles = async (req, res) => {
     const dbClient = req.app.get('dbClient');
     console.log("getting clicked articles")
     
-    // Get user_id from session (set by verifySession middleware)
+    // Get user_id from body. Currently unsafe!
     const userId = req.body.user_id;
 
     // Retrieve clicked articles sorted by most recently clicked
