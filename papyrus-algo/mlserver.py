@@ -19,8 +19,10 @@ class ExternalDataClient:
             response = await client.request("GET", BACKEND_URL + "/data/getArticleData", json={"articleIds": article_ids})
             return response.json()
 
-    async def get_user_data(self, user_id: str):
-        pass
+    async def get_user_clicked(self, user_id: str):
+        async with httpx.AsyncClient() as client:
+            response = await client.request("GET", BACKEND_URL + "/data/getClickedArticles", json={"user_id": user_id})
+            return response.json()
 
 app = FastAPI()
 
@@ -40,6 +42,7 @@ async def get_recommendations(
     ML server returns ordered list of articles
     """
     new_articles = await api_client.get_new_articles()
+    user_data = await api_client.get_user_clicked(user_id)
 
 
     return new_articles

@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
 
     // Generate a session token
     const sessionToken = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour expiration
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000 * 24); // 24 hour expiration
 
     // Store session in the sessions table
     await dbClient.query(
@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
     res.cookie('session_token', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      maxAge:  60 * 60 * 1000, // 1 hour
+      maxAge:  60 * 60 * 1000 * 24, // 24 hour
     });
 
     console.log(`User ${user.user_id} logged in with session ${sessionToken}`);
@@ -178,14 +178,16 @@ const getUserSavedArticles = async (req, res) => {
   }
 };
 
-// GET: Get Clicked Articles for the authenticated user
+// GET: Get Clicked Articles for the user. Is not authenticated due
+// to allow for ML backend to access this data. TODO: add some form of
+// authentication for ML backend.
 const getUserClickedArticles = async (req, res) => {
   try {
     const dbClient = req.app.get('dbClient');
     console.log("getting clicked articles")
     
     // Get user_id from session (set by verifySession middleware)
-    const userId = req.user.user_id;
+    const userId = req.body.user_id;
 
     // Retrieve clicked articles sorted by most recently clicked
     const result = await dbClient.query(
