@@ -1,6 +1,6 @@
 // routes/auth.js
 const express = require('express');
-const { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, addUserInterest, removeUserInterest, verifySession } = require('../controllers/userController');
+const { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest, verifySession } = require('../controllers/userController');
 const router = express.Router();
 
 // Route for user registration
@@ -17,6 +17,9 @@ router.post('/logout', logoutUser);
 
 // Route for getting user articles
 router.get('/getSavedArticles', verifySession, getUserSavedArticles);
+
+// Route for getting clicked articles
+router.get('/getClickedArticles', verifySession, getUserClickedArticles);
 
 // Route for adding user interest
 router.post('/addInterest', verifySession, addUserInterest);
