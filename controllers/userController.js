@@ -99,36 +99,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Middleware to verify session
-const verifySession = async (req, res, next) => {
-  const dbClient = req.app.get('dbClient');
-  const sessionToken = req.cookies.session_token;
 
-  if (!sessionToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  try {
-    const result = await dbClient.query(
-      'SELECT * FROM sessions WHERE session_id = $1 AND expires_at > NOW()',
-      [sessionToken]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Session expired or invalid' });
-    }
-
-    req.user = result.rows[0]; // Attach session data to the request
-    next();
-  } catch (err) {
-    console.error('Error verifying session:', err);
-    res.status(500).json({ error: 'Database error' });
-  }
-  
-  // req.user = {user_id : 1}
-  // next();
-  // uncomment and comment everything else out for testing 
-};
 
 
 // User Logout
@@ -162,11 +133,10 @@ const getUserSavedArticles = async (req, res) => {
     // Retrieve saved articles sorted by most recently saved
     const result = await dbClient.query(
       `
-      SELECT a.*, s.saved_at
-      FROM articles a
-      JOIN saved_articles s ON a.article_id = s.article_id
-      WHERE s.user_id = $1
-      ORDER BY s.saved_at DESC
+      SELECT article_id 
+      FROM saved
+      WHERE user_id = $1
+      ORDER BY saved_at DESC
       `,
       [userId]
     );
@@ -269,4 +239,4 @@ const removeUserInterest = async (req, res) => {
 };
 
 
-module.exports = { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest};
+module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest};
