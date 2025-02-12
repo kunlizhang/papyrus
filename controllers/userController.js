@@ -174,6 +174,32 @@ const getUserSavedArticles = async (req, res) => {
   }
 };
 
+// GET: Get Clicked Articles for the authenticated user
+const getUserClickedArticles = async (req, res) => {
+  try {
+    const dbClient = req.app.get('dbClient');
+    
+    // Get user_id from session (set by verifySession middleware)
+    const userId = req.user.user_id;
+
+    // Retrieve clicked articles sorted by most recently clicked
+    const result = await dbClient.query(
+      `
+      SELECT article_id
+      FROM clicked_on 
+      WHERE user_id = $1
+      ORDER BY saved_at DESC
+      `,
+      [userId]
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error retrieving saved articles:', error);
+    res.status(500).json({ error: 'Could not retrieve saved articles' });
+  }
+};
+
 
 // POST: Add User Interest
 const addUserInterest = async (req, res) => {
@@ -238,4 +264,4 @@ const removeUserInterest = async (req, res) => {
 };
 
 
-module.exports = { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, addUserInterest, removeUserInterest};
+module.exports = { registerUser, loginUser, verifySession, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest};
