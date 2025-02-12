@@ -55,8 +55,9 @@ async function saveArticle(req, res) {
     try {
       // Insert the clicked article or handle conflict
       const insertQuery = `
-        INSERT INTO clickedon (user_id, article_id, clicked_at)
-        VALUES ($1, $2, NOW())
+        INSERT INTO clicked_on (user_id, article_id)
+        VALUES ($1, $2)
+        RETURNING saved_at
         
       `;
       const result = await dbClient.query(insertQuery, [user_id, article_id]);
