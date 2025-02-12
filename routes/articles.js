@@ -1,16 +1,20 @@
 // routes/articles.js
 const express = require('express');
-const { saveArticle, clickArticle } = require('../controllers/articlesController');
+const { saveArticle, clickArticle, removeSavedArticle} = require('../controllers/articlesController');
+const { verifySession } = require("../controllers/authMiddleware");
 
 
 const router = express.Router();
 
 
 // Route for user saving
-router.post('/save',saveArticle);
+router.post('/save',verifySession, saveArticle);
+
+// Route for remove saved
+router.post('/removeSaved', verifySession, removeSavedArticle);
 
 // Route for user clicking
-router.post('/click', clickArticle);
+router.post('/click', verifySession, clickArticle);
 
 
 module.exports = router;

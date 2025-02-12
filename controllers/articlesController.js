@@ -38,6 +38,39 @@ async function saveArticle(req, res) {
   }
 }
 
+// POST : Unsave Article
+async function removeSavedArticle(req, res) {
+  const dbClient = req.app.get('dbClient');
+  const { article_id } = req.body;
+  const user_id = req.user.user_id;
+
+  // Validate request body
+  if (!user_id || !article_id) {
+    return res.status(400).json({ error: 'user_id and article_id are required' });
+  }
+
+  try {
+    // Check if the article is actually saved by the user
+    const checkQuery = 'SELECT 1 FROM saved WHERE user_id = $1 AND article_id = $2';
+    const checkResult = await dbClient.query(checkQuery, [user_id, article_id]);
+
+    if (checkResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Article is not saved' });
+    }
+
+    // Delete the saved article
+    const deleteQuery = 'DELETE FROM saved WHERE user_id = $1 AND article_id = $2';
+    await dbClient.query(deleteQuery, [user_id, article_id]);
+
+    // Respond with success
+    res.status(200).json({ message: 'Article removed successfully' });
+  } catch (err) {
+    console.error('Error removing saved article:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+
   
   // POST: Clicked Article
   async function clickArticle(req, res) {
@@ -70,5 +103,5 @@ async function saveArticle(req, res) {
   }
   
   
-  module.exports = { saveArticle, clickArticle };
+  module.exports = { saveArticle, clickArticle, removeSavedArticle};
   

@@ -1,6 +1,8 @@
 // routes/auth.js
 const express = require('express');
-const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest, verifySession } = require('../controllers/userController');
+const { verifySession } = require("../controllers/authMiddleware");
+
+const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest } = require('../controllers/userController');
 
 const router = express.Router();
 
