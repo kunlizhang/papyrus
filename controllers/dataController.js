@@ -40,4 +40,26 @@ const getArticlesData = async (req, res) => {
   }
 };
 
-module.exports = { getRecentArticles, getArticlesData };
+async function getRecommendations(req, res) {
+  try {
+    const user_id = req.user.user_id;
+
+    if (!user_id) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    const response = await fetch(`http://localhost:8000/getRecommendations?user_id=${user_id}`);
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch recommendations");
+    }
+
+    const data = await response.json();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching recommendations:", error);
+    res.status(500).json({ error: "Failed to fetch recommendations" });
+  }
+}
+
+module.exports = { getRecentArticles, getArticlesData, getRecommendations };
