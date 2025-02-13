@@ -22,7 +22,7 @@ router.post('/logout', logoutUser);
 router.get('/getSavedArticles', verifySession, getUserSavedArticles);
 
 // Route for getting clicked articles
-router.get('/getClickedArticles', verifySession, getUserClickedArticles);
+router.get('/getClickedArticles', getUserClickedArticles);
 
 // Route for adding user interest
 router.post('/addInterest', verifySession, addUserInterest);
