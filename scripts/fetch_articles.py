@@ -15,32 +15,62 @@ cur = conn.cursor()
 
 URL = 'https://newsapi.org/v2/top-headlines'
 REMOVED = '[Removed]'
+CATEGORIES = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
 
-params = {
-    'apiKey': APIKEY,
-    'country': 'us',
-    'pageSize': 100,
-    'page': 1
-    }
-res = requests.get(URL, params=params)
+class Article:
+    def __init__(self, title, url, desc, urlToImage, date):
+        self.title = title
+        self.url = url
+        self.desc = desc
+        self.urlToImage = urlToImage
+        self.date = date
+        self.categories = []
+    
+    def add_category(self, category):
+        self.categories.append(category)
+    
+    def add_to_table(self):
+        values = (self.title, self.url, self.desc, self.urlToImage, self.date, self.categories)
+        cur.execute("INSERT INTO articles (article_name, article_url, article_desc, cover_image_url, date, categories) VALUES (%s, %s, %s, %s, %s, %s)", values)
+
 cnt = 0
-if res.status_code != 200:
-    print('{rs.status_code} status code')
-else:
-    res = res.json()
-    if res['status'] != 'ok':
-        print(res['code'], res['message'])
+buff = {}
+
+for ctg in CATEGORIES:
+    params = {
+        'apiKey': APIKEY,
+        'country': 'us',
+        'pageSize': 15,
+        'page': 1,
+        'category': ctg
+        }
+    res = requests.get(URL, params=params)
+    if res.status_code != 200:
+        print('{res.status_code} status code')
     else:
-        articles = res['articles']
-        for article in articles:
-            if article['title'] == REMOVED:
-                continue
-            desc = article['description'] if article['description'] != None else ""
-            dt = datetime.date.today()
-            date = f"{dt.year}/{dt.month}/{dt.day}"
-            values = (article['title'], article['url'], desc, article['urlToImage'], date)
-            cur.execute("INSERT INTO articles (article_name, article_url, article_desc, cover_image_url, date) VALUES (%s, %s, %s, %s, %s)", values)
-            cnt += 1
+        res = res.json()
+        if res['status'] != 'ok':
+            print(res['code'], res['message'])
+        else:
+            articles = res['articles']
+            for article in articles:
+                if article['title'] == REMOVED:
+                    continue
+
+                ky = article['url']
+                if ky not in buff:
+                    desc = article['description'] if article['description'] != None else ""
+                    dt = datetime.date.today()
+                    date = f"{dt.year}/{dt.month}/{dt.day}"
+                    rt = Article(article['title'], article['url'], desc, article['urlToImage'], date)
+                    rt.add_category(ctg)
+                    buff[ky] = rt
+                else:
+                    buff[ky].add_category(ctg)
+
+for _, rt in buff.items():
+    rt.add_to_table()
+    cnt += 1
 
 conn.commit()
 print(f'{cnt} records created successfully')
