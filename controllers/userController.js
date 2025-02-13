@@ -154,7 +154,6 @@ const getUserSavedArticles = async (req, res) => {
 const getUserClickedArticles = async (req, res) => {
   try {
     const dbClient = req.app.get('dbClient');
-    console.log("getting clicked articles")
     
     // Get user_id from body. Currently unsafe!
     const userId = req.body.user_id;
