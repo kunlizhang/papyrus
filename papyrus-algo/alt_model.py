@@ -4,6 +4,7 @@ import random
 CATEGORIES = "categories"
 NULL_CATEGORY = "null"
 ARTICLE_ID = "article_id"
+ALPHA = 20
 
 class AltModel:
     def __init__(self):
@@ -38,7 +39,7 @@ class AltModel:
             else:
                 score += category_dict.get(NULL_CATEGORY, 0)
             
-            score += random.randrange(0, 10)
+            score += random.randrange(0, ALPHA)
             
             articles_score[article[ARTICLE_ID]] = score
         

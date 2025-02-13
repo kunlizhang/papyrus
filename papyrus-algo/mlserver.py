@@ -3,6 +3,8 @@ from fastapi import FastAPI, Depends
 from datetime import datetime
 from alt_model import AltModel
 
+from fastapi.middleware.cors import CORSMiddleware
+
 BACKEND_URL = "http://localhost:3000"
 DATA_FILE = "data.json"
 
@@ -27,6 +29,14 @@ class ExternalDataClient:
             return response.json()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow requests from any domain
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 external_data_client = ExternalDataClient(BACKEND_URL)
 
