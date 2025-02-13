@@ -1,8 +1,10 @@
 import httpx
 from fastapi import FastAPI, Depends
 from datetime import datetime
+from alt_model import AltModel
 
 BACKEND_URL = "http://localhost:3000"
+DATA_FILE = "data.json"
 
 class ExternalDataClient:
     def __init__(self, base_url: str):
@@ -28,13 +30,16 @@ app = FastAPI()
 
 external_data_client = ExternalDataClient(BACKEND_URL)
 
+model = AltModel()
+
 def get_external_data_client():
     return external_data_client
 
 @app.get("/getRecommendations")
 async def get_recommendations(
     user_id: str, 
-    api_client: ExternalDataClient = Depends(get_external_data_client)):
+    api_client: ExternalDataClient = Depends(get_external_data_client),
+    model: AltModel = Depends(AltModel)):
     """
     ML server gets all the new articles for the day
     ML server gets the data for a user
@@ -50,5 +55,4 @@ async def get_recommendations(
     # Get the data for the clicked-on articles
     clicked_on_data = await api_client.get_article_data(user_clicked_on)
 
-
-    return clicked_on_data
+    return model.sort_recommendations(clicked_on_data, new_articles) 
