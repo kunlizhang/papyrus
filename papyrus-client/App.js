@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,18 +14,32 @@ import Profile from './components/Profile';
 import Recommendations from './components/Recommendations';
 import Search from './components/Search';
 import CarouselData from './assets/mock-recommendations.json';
+import { getRecommendedArticlesAsJson } from './functions/user-actions';
 
 const Tab = createBottomTabNavigator();
 
 function MainApp() {
   const { theme } = useTheme();
-
+  const [recommendedArticles, setRecommendedArticles] = useState([]);
   const [fontsLoaded] = useFonts({
     Bayon_400Regular,
     LibreBaskerville_400Regular,
     LibreBaskerville_700Bold,
     SourceSans3_600SemiBold
   });
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const articles = await getRecommendedArticlesAsJson(); // Step 2
+        setRecommendedArticles(articles);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   if (!fontsLoaded) {
     return <Text>Loading Fonts...</Text>;
@@ -59,7 +73,7 @@ function MainApp() {
       })}
     >
       <Tab.Screen name="Explore">
-        {() => <Recommendations data={CarouselData} />}
+        {() => <Recommendations data={recommendedArticles} />}
       </Tab.Screen>
       <Tab.Screen name="Search">
         {() => <Search data={CarouselData} />}

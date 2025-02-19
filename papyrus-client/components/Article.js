@@ -39,7 +39,7 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
     return (
         <View style={styles.articleView}>
             <WebView 
-                source={{ uri: currentArticle.source }} 
+                source={{ uri: currentArticle.article_url }} 
                 style={[styles.webView, { overflowX: 'hidden' }]} 
                 scalesPageToFit={false} 
                 scrollEnabled={true}
