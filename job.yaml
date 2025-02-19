@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: articles-script
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: articles-script
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: articles-script
+            imagePullPolicy: IfNotPresent
+            name: articles-script
+            resources: {}
+            env:
+            - name: DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: DBNAME
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: USERNAME
+            - name: HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: HOSTNAME
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: PASSWORD
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: PORT
+            - name: APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: APIKEY
+          restartPolicy: OnFailure
+  schedule: 0 */12 * * *
+status: {}
