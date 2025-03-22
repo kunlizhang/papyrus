@@ -9,7 +9,7 @@ const { verifySession } = require("../controllers/authMiddleware");
 router.get('/getRecentArticles', getRecentArticles);
 
 // Route for getting article data
-router.get('/getArticlesData', getArticlesData);
+router.post('/getArticlesData', getArticlesData);
 
 // Route for getting recommendations
 router.get('/getRecommendations', verifySession, getRecommendations);

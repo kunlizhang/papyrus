@@ -124,7 +124,6 @@ const Recommendations = ({ data }) => {
   const renderCards = () => {
     return data
       .map((item, index) => {
-
         const isCurrentCard = index === currentIndex;
         const isNextCard = index === (currentIndex + 1) % data.length;
 
@@ -166,12 +165,13 @@ const Recommendations = ({ data }) => {
             {...panHandlers}
           >
             <ImageBackground
-              source={{ uri: item.background }}
+              source={{ uri: item.cover_image_url }}
               resizeMode="cover"
             >
               <View style={styles.textContainer}>
-                <Text style={styles.cardHeadline}>{item.heading}</Text>
-                <Text style={styles.cardSubtitle}>{item.subheading}</Text>
+                <Text style={styles.cardHeadline}>{item.article_name.substring(0, item.article_name.lastIndexOf("-")).trim()}</Text>
+                <Text style={styles.cardSubtitle}>{item.article_desc}</Text>
+                <Text style={styles.cardSource}>{item.article_name.substring(item.article_name.lastIndexOf("-") + 1).trim()}</Text>
                 <Text style={styles.buttonContainer} onPress={handleSwipeUp}>⌃</Text>
               </View>
             </ImageBackground>

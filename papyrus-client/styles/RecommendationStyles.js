@@ -35,12 +35,12 @@ const createStyles = (theme) =>
       height: '100%',
     },
     cardHeadline: {
-      fontSize: scale(45),
-      lineHeight: scale(45),
+      fontSize: scale(35),
+      lineHeight: scale(35),
       color: 'white',
       textAlign: 'left',
       paddingTop: scale(20),
-      paddingBottom: 0,
+      paddingBottom: scale(5),
       marginBottom: scale(-15),
       fontFamily: theme.headlineFontFamily
     },
@@ -49,8 +49,17 @@ const createStyles = (theme) =>
       lineHeight: scale(18),
       fontWeight: 'bold',
       textAlign: 'left',
+      paddingBottom: scale(5),
       color: 'white',
       fontFamily: theme.paragraphFontFamily
+    },
+    cardSource: {
+      fontSize: scale(12),
+      lineHeight: scale(18),
+      fontWeight: 'bold',
+      textAlign: 'left',
+      color: 'white',
+      fontFamily: theme.headlineFontFamily
     },
     buttonContainer: {
       position: 'absolute',
