@@ -102,6 +102,33 @@ async function removeSavedArticle(req, res) {
     }
   }
   
+
+  const isSaved = async (req, res) => {
+    try {
+      const dbClient = req.app.get('dbClient');
+      const { article_id } = req.body;
   
-  module.exports = { saveArticle, clickArticle, removeSavedArticle};
+      // Get user_id from session (set by verifySession middleware)
+      const userId = req.user.user_id;
+  
+      // Check if the article is saved
+      const result = await dbClient.query(
+        `
+        SELECT EXISTS (
+          SELECT 1
+          FROM saved
+          WHERE user_id = $1 AND article_id = $2
+        ) AS is_saved
+        `,
+        [userId, article_id]
+      );
+
+      res.json({ isSaved: result.rows[0].is_saved });
+    } catch (error) {
+      console.error('Error checking saved article:', error);
+      res.status(500).json({ error: 'Could not check saved article' });
+    }
+  };
+  
+  module.exports = { saveArticle, clickArticle, removeSavedArticle, isSaved};
   
