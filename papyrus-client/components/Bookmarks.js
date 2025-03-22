@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '../context/ThemeContext';
@@ -16,16 +16,18 @@ const Bookmarks = ({ data }) => {
   const [sortOption, setSortOption] = useState('');
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
+  const [filteredData, setFilteredData] = useState(data);
+
   const genres = [
+    'Business',
+    'Entertainment',
+    'Sports',
+    'Health',
     'Politics',
     'Technology',
-    'Health',
-    'Sports',
-    'Entertainment',
     'Science',
     'World',
-    'Finance',
-    'Education',
+    'General',
   ];
 
   const sortOptions = [
@@ -33,7 +35,6 @@ const Bookmarks = ({ data }) => {
     { label: 'Newest', value: 'newest' },
     { label: 'Oldest', value: 'oldest' },
     { label: 'Most Popular', value: 'popular' },
-    { label: 'Trending', value: 'trending' },
   ];
 
   const handleScroll = (direction) => {
@@ -50,14 +51,45 @@ const Bookmarks = ({ data }) => {
   };
 
   const handlePress = (genre) => {
-    setSelectedGenre(genre);
-    console.log(`Selected genre: ${genre}`);
+    if (genre === selectedGenre) {
+      setSelectedGenre(null);
+      console.log(`Selected genre: none`);
+    } else {
+      setSelectedGenre(genre);
+      console.log(`Selected genre: ${genre}`);
+    }
   };
 
   const handleSortChange = (itemValue) => {
     setSortOption(itemValue);
-    console.log(`Sort by: ${itemValue}`);
   };
+
+  useEffect(() => {
+    let filtered = data;
+
+    if (selectedGenre) {
+      filtered = filtered.filter(item => item.categories.includes(selectedGenre.toLowerCase()));
+    }
+
+    if (sortOption) {
+      switch (sortOption) {
+        case 'newest':
+          filtered = filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case 'oldest':
+          filtered = filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        case 'popular':
+          filtered = filtered.sort((a, b) => b.popularity - a.popularity);
+          break;
+        default:
+          break;
+      }
+    }
+
+    setFilteredData(filtered);
+
+  }, [selectedGenre, sortOption, data]);
 
   return (
     <View style={styles.container}>
@@ -118,23 +150,28 @@ const Bookmarks = ({ data }) => {
         />
       </View>
       <ScrollView style={styles.articles}> 
-        {data.map((item, index) => (
+        {filteredData.map((item, index) => (
           <View key={index} style={index == data.length - 1 ? styles.lastArticleContainer : styles.articleContainer}>
             <View style={styles.savedArticle}>
               <View style={styles.articleLeft}>
-                <Text style={styles.articleHeading}>{item.heading}</Text>
-                <Text style={styles.articleSubheading}>{item.subheading}</Text>
+                <Text style={styles.articleHeading}>{item.article_name}</Text>
+                <Text style={styles.articleSubheading}>
+                  {item.article_desc.substring(0, 150).endsWith('.') ? 
+                    item.article_desc.substring(0, 150) + '..' : 
+                    item.article_desc.substring(0, 150) + '...'}
+                </Text>
               </View>
               <View style={styles.articleRight}>
-                <Image 
-                  source={{ uri: item.background }} 
-                  style={styles.articleImage} 
-                />
+              <Image 
+                source={{ uri: item.cover_image_url ? item.cover_image_url : 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg' }} 
+                style={styles.articleImage} 
+              />
               </View>
             </View>
             <View style={styles.articleBottom}>
-              <Text style={styles.articleAuthors}>{item.authors.join(', ')}</Text>
-              <Text style={styles.articleDate}>{item.date}</Text>
+              <Text style={styles.articleDate}>
+                {item.date ? item.date.split("T")[0] : ""}
+              </Text>
             </View>
           </View>
         ))}

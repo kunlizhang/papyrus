@@ -9,11 +9,66 @@ export const SwipeStatus = Object.freeze({
 });
 
 export function handleBookmark(article) {
-    console.log("Bookmarking article: " + article.article_id);
+
+    const articleId = article.article_id;
+    const url = uri + `/articles/save?user_id=${encodeURIComponent(userId)}`;
+
+    console.log("Bookmarking article: " + articleId);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ article_id: articleId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Message:', data.message); 
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+export function handleRemoveBookmark(article) {
+
+    const articleId = article.article_id;
+    const url = uri + `/articles/removeSaved?user_id=${encodeURIComponent(userId)}`;
+
+    console.log("Removing bookmark on article: " + articleId);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ article_id: articleId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Message:', data.message); 
+        })
+        .catch(error => console.error('Error:', error));
 }
   
 export function handleRead(article) {
-    console.log("Reading article: " + article.article_id);
+
+    const articleId = article.article_id;
+    const url = uri + `/articles/click?user_id=${encodeURIComponent(userId)}`;
+
+    console.log("Reading article: " + articleId);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ article_id: articleId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Message:', data.message); 
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 export function handleSkip(article) {
@@ -74,5 +129,51 @@ export async function getRecommendedArticlesAsJson() {
             });
     } catch (error) {
         console.error("Error in getRecommendedArticlesAsJson:", error);
+    }
+}
+
+export function getSavedArticles() {
+    const url = uri + `/users/getSavedArticles?user_id=${encodeURIComponent(userId)}`;
+    
+    return fetch(url, { method: "GET" })
+        .then(response => response.json())
+        .then(data => {
+            const formattedArray = data.map(obj => obj.article_id);
+            return formattedArray;
+        })
+        .catch(error => {
+            console.error("Error fetching recommended articles:", error);
+            return [];
+        });
+}
+
+export async function getSavedArticlesAsJson() {
+    try {
+        const articleIds = await getSavedArticles();
+
+        if (!Array.isArray(articleIds) || articleIds.length === 0) {
+            console.error("No article IDs received.");
+            return [];
+        }
+
+        const url = uri + `/data/getArticlesData`;
+
+        return fetch(url, { 
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ articleIds }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            })
+            .catch(error => {
+                console.error("Error fetching saved articles:", error);
+                return [];
+            });
+    } catch (error) {
+        console.error("Error in getSavedArticlesAsJson:", error);
     }
 }

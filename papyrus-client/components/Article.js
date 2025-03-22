@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { scale } from 'react-native-size-matters';
 import WebView from 'react-native-webview';
 import createStyles from '../styles/ArticleStyles';
-import { handleBookmark, handleSkip } from '../functions/user-actions';
+import { handleBookmark, handleSkip, handleRemoveBookmark } from '../functions/user-actions';
 import { MaterialIcons } from 'react-native-vector-icons';
 
 const Article = ({ currentArticle, handleSwipeDown }) => {
@@ -53,8 +53,12 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
                     <MaterialIcons name="close" size={theme.iconSize} color={theme.tabBarActiveTintColor} />
                 </Text>
                 <Text style={styles.bookmarkButton} onPress={() => {
-                    handleBookmark(currentArticle); 
                     setBookmarked(!bookmarked);
+                    if (bookmarked) {
+                        handleBookmark(currentArticle); 
+                    } else {
+                        handleRemoveBookmark(currentArticle);
+                    }
                 }}>
                     {
                         bookmarked ? 

@@ -5,6 +5,7 @@ async function saveArticle(req, res) {
   const dbClient = req.app.get('dbClient');
   const { article_id } = req.body;
   const user_id = req.user.user_id;
+
   // Validate request body
   if (!user_id || !article_id) {
     return res.status(400).json({ error: 'user_id and article_id are required' });

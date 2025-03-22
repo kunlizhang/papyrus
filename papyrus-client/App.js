@@ -14,13 +14,14 @@ import Profile from './components/Profile';
 import Recommendations from './components/Recommendations';
 import Search from './components/Search';
 import CarouselData from './assets/mock-recommendations.json';
-import { getRecommendedArticlesAsJson } from './functions/user-actions';
+import { getRecommendedArticlesAsJson, getSavedArticlesAsJson } from './functions/user-actions';
 
 const Tab = createBottomTabNavigator();
 
 function MainApp() {
   const { theme } = useTheme();
   const [recommendedArticles, setRecommendedArticles] = useState([]);
+  const [savedArticles, setSavedArticles] = useState([]);
   const [fontsLoaded] = useFonts({
     Bayon_400Regular,
     LibreBaskerville_400Regular,
@@ -31,14 +32,35 @@ function MainApp() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const articles = await getRecommendedArticlesAsJson(); // Step 2
-        setRecommendedArticles(articles);
+        const recommendations = await getRecommendedArticlesAsJson();
+        setRecommendedArticles(recommendations);
+
+        const saved = await getSavedArticlesAsJson(); 
+        setSavedArticles(saved);
+
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
     };
 
     fetchArticles();
+
+    const intervalId = setInterval(() => {
+      const fetchSavedArticles = async () => {
+        try {
+          const saved = await getSavedArticlesAsJson(); 
+          setSavedArticles(saved);
+        } catch (error) {
+          console.error("Error fetching saved articles:", error);
+        }
+      };
+      
+      fetchSavedArticles();
+    }, 2000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   if (!fontsLoaded) {
@@ -75,11 +97,11 @@ function MainApp() {
       <Tab.Screen name="Explore">
         {() => <Recommendations data={recommendedArticles} />}
       </Tab.Screen>
-      <Tab.Screen name="Search">
+      {/* <Tab.Screen name="Search">
         {() => <Search data={CarouselData} />}
-      </Tab.Screen>
+      </Tab.Screen> */}
       <Tab.Screen name="Bookmarks">
-        {() => <Bookmarks data={CarouselData} />}
+        {() => <Bookmarks data={savedArticles} />}
       </Tab.Screen>
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
