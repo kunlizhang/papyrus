@@ -16,7 +16,7 @@ router.post('/removeSaved', verifySession, removeSavedArticle);
 // Route for user clicking
 router.post('/click', verifySession, clickArticle);
 
-router.get('/isSaved', verifySession, isSaved)
+router.post('/isSaved', verifySession, isSaved)
 
 
 module.exports = router;

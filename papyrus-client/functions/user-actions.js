@@ -8,6 +8,25 @@ export const SwipeStatus = Object.freeze({
     RIGHT: 'save',
 });
 
+export function isBookmarked(article) {
+
+    const articleId = article.article_id;
+    const url = uri + `/articles/isSaved?user_id=${encodeURIComponent(userId)}`;
+
+    console.log("Checking bookmarked status of article: " + articleId);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ article_id: articleId })
+        })
+        .then(response => response.json())
+        .then(data => {return data})
+        .catch(error => console.error('Error:', error));
+}
+
 export function handleBookmark(article) {
 
     const articleId = article.article_id;

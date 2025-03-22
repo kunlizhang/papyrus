@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { scale } from 'react-native-size-matters';
 import WebView from 'react-native-webview';
 import createStyles from '../styles/ArticleStyles';
-import { handleBookmark, handleSkip, handleRemoveBookmark } from '../functions/user-actions';
+import { handleBookmark, handleSkip, handleRemoveBookmark, isBookmarked } from '../functions/user-actions';
 import { MaterialIcons } from 'react-native-vector-icons';
 
 const Article = ({ currentArticle, handleSwipeDown }) => {
@@ -13,10 +13,14 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
     const styles = createStyles(theme);
     const navigation = useNavigation();
 
-    // TODO: make global
-    const [bookmarked, setBookmarked] = useState(false);
+    const [bookmarked, setBookmarked] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
+        isBookmarked(currentArticle)
+        .then(data => {
+            setBookmarked(data.isSaved);
+        });
+
         navigation.setOptions({
             headerShown: false,
             tabBarStyle: {
@@ -35,7 +39,18 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
             });
         };
     }, [navigation]);
-    
+
+    const toggleBookmark = () => {
+        if (bookmarked) {
+            handleRemoveBookmark(currentArticle);
+        } else {
+            handleBookmark(currentArticle);
+        }
+        setBookmarked(!bookmarked);
+    };
+
+    console.log(bookmarked)
+
     return (
         <View style={styles.articleView}>
             <WebView 
@@ -52,14 +67,7 @@ const Article = ({ currentArticle, handleSwipeDown }) => {
                 }}>
                     <MaterialIcons name="close" size={theme.iconSize} color={theme.tabBarActiveTintColor} />
                 </Text>
-                <Text style={styles.bookmarkButton} onPress={() => {
-                    setBookmarked(!bookmarked);
-                    if (bookmarked) {
-                        handleBookmark(currentArticle); 
-                    } else {
-                        handleRemoveBookmark(currentArticle);
-                    }
-                }}>
+                <Text style={styles.bookmarkButton} onPress={toggleBookmark}>
                     {
                         bookmarked ? 
                         <MaterialIcons name="bookmark" size={theme.iconSize} color={theme.tabBarActiveTintColor} /> : 
