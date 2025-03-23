@@ -182,7 +182,7 @@ const getUserInterests = async (req, res) => {
     const dbClient = req.app.get('dbClient');
     
     // Get user_id from body. Currently unsafe!
-    const userId = req.body.user_id;
+    const userId = req.user.user_id;
 
     // Retrieve clicked articles sorted by most recently clicked
     const result = await dbClient.query(
