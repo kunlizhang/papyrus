@@ -176,6 +176,32 @@ const getUserClickedArticles = async (req, res) => {
   }
 };
 
+// GET: Get all user interests
+const getUserInterests = async (req, res) => {
+  try {
+    const dbClient = req.app.get('dbClient');
+    
+    // Get user_id from body. Currently unsafe!
+    const userId = req.body.user_id;
+
+    // Retrieve clicked articles sorted by most recently clicked
+    const result = await dbClient.query(
+      `
+      SELECT interests
+      FROM users 
+      WHERE user_id = $1
+      `,
+      [userId]
+    );
+
+    const ls = result.rows[0];
+    if (ls["interests"] == null) ls["interests"] = [];
+    res.json(ls);
+  } catch (error) {
+    console.error('Error retrieving user interests:', error);
+    res.status(500).json({ error: 'Could not retrieve user interests' });
+  }
+};
 
 // POST: Add User Interest
 const addUserInterest = async (req, res) => {
@@ -240,4 +266,4 @@ const removeUserInterest = async (req, res) => {
 };
 
 
-module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest};
+module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, getUserInterests, addUserInterest, removeUserInterest};

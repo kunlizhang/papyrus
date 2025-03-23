@@ -2,7 +2,7 @@
 const express = require('express');
 const { verifySession } = require("../controllers/authMiddleware");
 
-const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, addUserInterest, removeUserInterest } = require('../controllers/userController');
+const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserInterests, getUserClickedArticles, addUserInterest, removeUserInterest } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -20,6 +20,9 @@ router.post('/logout', logoutUser);
 
 // Route for getting user articles
 router.get('/getSavedArticles', verifySession, getUserSavedArticles);
+
+// Route for getting user interests
+router.get('/getUserInterests', verifySession, getUserInterests);
 
 // Route for getting clicked articles
 router.get('/getClickedArticles', getUserClickedArticles);
