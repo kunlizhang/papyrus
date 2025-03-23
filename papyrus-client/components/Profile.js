@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import createStyles from '../styles/ProfileStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { addInterest, deleteInterest, addRestrictedSource } from '../functions/user-actions';
+import { addInterest, deleteInterest, addRestrictedSource, getInterests } from '../functions/user-actions';
 import { scale } from 'react-native-size-matters';
 
 const Profile = () => {
@@ -13,7 +13,7 @@ const Profile = () => {
 
   const [isInterestDropdownOpen, setInterestDropdownOpen] = useState(false);
   const [interestOption, setInterestOption] = useState('');
-
+  const [userInterests, setUserInterests] = useState([]);
   const [isSourceDropdownOpen, setSourceDropdownOpen] = useState(false);
   const [sourceOption, setSourceOption] = useState('');
 
@@ -25,8 +25,9 @@ const Profile = () => {
     { label: 'Climate', value: 'Climate' },
     { label: 'Science', value: 'Science' },
     { label: 'Education', value: 'Education' },
-    { label: 'Arts', value: 'Arts' },
+    { label: 'Art', value: 'Art' },
     { label: 'Sports', value: 'Sports' },
+    { label: 'Food', value: 'Food' },
     { label: 'Entertainment', value: 'Entertainment' },
   ];
 
@@ -44,6 +45,27 @@ const Profile = () => {
     { label: 'NPR', value: 'NPR' },
   ];
 
+  useEffect(() => {
+    fetchUserInterests();
+  }, []);
+
+  const fetchUserInterests = async () => {
+    const interests = await getInterests();
+    setUserInterests(interests.interests);
+  };
+
+  const handleAddInterest = async () => {
+    if (interestOption) {
+      await addInterest(interestOption);
+      fetchUserInterests();
+    }
+  };
+
+  const handleDeleteInterest = async (interest) => {
+    await deleteInterest(interest);
+    fetchUserInterests();
+  };
+
   const handleInterestChange = (itemValue) => {
     setInterestOption(itemValue);
   };
@@ -52,25 +74,15 @@ const Profile = () => {
     setSourceOption(itemValue);
   }
 
-  const handleAddInterest = () => {
-    if (interestOption) {
-      addInterest(interestOption);
-    }
-  }
-
   const handleAddSource = () => {
     if (sourceOption) {
       addRestrictedSource(sourceOption);
     }
   }
 
-  const handleDeleteInterest = (interest) => {
-    deleteInterest(interest)
-  }
-
   const exampleName = "Armando Christian Pérez"
   const exampleEmail = "mrworldwide305@gmail.com"
-  const exampleInterests = ["Politics", "World News", "Technology", "Climate", "Arts", "Sports", "Entertainment"]
+
   const exampleSources = ["Breitbart News", "InfoWars", "BuzzFeed"]
 
   return (
@@ -112,7 +124,7 @@ const Profile = () => {
           <Text style={styles.addInterestButton} onPress={handleAddInterest}>add</Text>
         </View>
         <ScrollView style={styles.userInterestScrollView} contentContainerStyle={styles.userInterestList}>
-          {exampleInterests.map((item, index) => (
+          {userInterests.map((item, index) => (
               <View key={index} style={styles.interestElement}>
                 <Text style={styles.interestElementText}>{item}</Text>
                 <Icon name="clear" size={scale(14)} onPress={() => handleDeleteInterest(item)}/>

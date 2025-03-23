@@ -97,9 +97,9 @@ function MainApp() {
       <Tab.Screen name="Explore">
         {() => <Recommendations data={recommendedArticles} />}
       </Tab.Screen>
-      {/* <Tab.Screen name="Search">
+      <Tab.Screen name="Search">
         {() => <Search data={CarouselData} />}
-      </Tab.Screen> */}
+      </Tab.Screen>
       <Tab.Screen name="Bookmarks">
         {() => <Bookmarks data={savedArticles} />}
       </Tab.Screen>

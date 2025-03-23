@@ -94,12 +94,56 @@ export function handleSkip(article) {
     console.log("Skipping article: " + article.article_id);
 }
 
+export function getInterests() {
+
+    const url = uri + `/users/getUserInterests?user_id=${encodeURIComponent(userId)}`;
+    console.log("Getting user interests");
+
+    return fetch(url, { method: "GET" })
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error("Error fetching user interests:", error);
+            return [];
+        });
+}
+
 export function addInterest(interest) {
-    console.log("Adding interest: " + interest);
+    const url = uri + `/users/addInterest?user_id=${encodeURIComponent(userId)}`;
+    console.log("Adding user interest: " + interest);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ interest: interest })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); 
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 export function deleteInterest(interest) {
-    console.log("Deleting interest: " + interest);
+    const url = uri + `/users/removeInterest?user_id=${encodeURIComponent(userId)}`;
+    console.log("Deleting user interest: " + interest);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ interest: interest })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 export function addRestrictedSource(interest) {

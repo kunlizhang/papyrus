@@ -1,8 +1,8 @@
 // controllers/userController.js
 const PREDEFINED_INTERESTS = [
-  'Technology', 'Sports', 'Music', 'Movies', 
-  'Science', 'Politics', 'Finance', 'Health', 
-  'Travel', 'Food', 'Gaming', 'Art'
+  'Technology', 'Sports', 'Entertainment', 
+  'Science', 'Politics', 'Climate', 'Education', 
+  'World News', 'Food', 'Art'
 ];
 
 const bcrypt = require('bcrypt');
