@@ -220,14 +220,14 @@ const addUserInterest = async (req, res) => {
     
     // PostgreSQL query to add interest to user's interests array
     const result = await dbClient.query(`
-      UPDATE users 
+      UPDATE users
       SET interests = array_append(
         COALESCE(interests, ARRAY[]::TEXT[]), 
         $1
       )
       WHERE user_id = $2 
       AND NOT($1 = ANY(interests))
-      RETURNING interests
+      RETURNING interests;
     `, [interest, userId]);
 
     if (result.rows.length === 0) {
@@ -265,5 +265,64 @@ const removeUserInterest = async (req, res) => {
   }
 };
 
+// POST: Add Restricted Source
+const addRestrictedSource = async (req, res) => {
+  const { restricted_source } = req.body;
 
-module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, getUserInterests, addUserInterest, removeUserInterest};
+  // Get user_id from session (set by verifySession middleware)
+  const userId = req.user.user_id;
+
+  try {
+    const dbClient = req.app.get('dbClient');
+    
+    // PostgreSQL query to add interest to user's restricted_soures array
+    const result = await dbClient.query(`
+      UPDATE users
+      SET restricted_sources = array_append(
+        COALESCE(restricted_sources, ARRAY[]::TEXT[]), 
+        $1
+      )
+      WHERE user_id = $2 
+      AND NOT($1 = ANY(restricted_sources))
+      RETURNING restricted_sources;
+    `, [restricted_source, userId]);
+
+    console.log(result);
+    if (result.rows.length === 0) {
+      return res.status(400).json({ error: 'Restricted source already exists' });
+    }
+
+    res.json({ restricted_sources: result.rows[0].restricted_sources });
+  } catch (error) {
+    console.error('Error adding restricted source:', error);
+    res.status(500).json({ error: 'Could not add restricted source' });
+  }
+};
+
+// POST: Remove Restrcited Source
+const removeRestrictedSource = async (req, res) => {
+  const { restricted_source } = req.body;
+  // Get user_id from session (set by verifySession middleware)
+  const userId = req.user.user_id;
+
+  try {
+    const dbClient = req.app.get('dbClient');
+    
+    // PostgreSQL query to remove interest from user's interests array
+    const result = await dbClient.query(`
+      UPDATE users 
+      SET restricted_sources = array_remove(restricted_sources, $1)
+      WHERE user_id = $2
+      RETURNING restricted_sources
+    `, [restricted_source, userId]);
+
+    res.json({ restricted_sources: result.rows[0].restricted_sources });
+  } catch (error) {
+    console.error('Error removing restricted source:', error);
+    res.status(500).json({ error: 'Could not remove restricted source' });
+  }
+};
+
+
+module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, 
+                    getUserInterests, addUserInterest, removeUserInterest, addRestrictedSource, removeRestrictedSource};
