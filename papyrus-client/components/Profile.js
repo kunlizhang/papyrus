@@ -4,7 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import createStyles from '../styles/ProfileStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { addInterest, deleteInterest, addRestrictedSource, getInterests } from '../functions/user-actions';
+import { addInterest, deleteInterest, addRestrictedSource, getInterests, getRestrictedSources, deleteRestrictedSource } from '../functions/user-actions';
 import { scale } from 'react-native-size-matters';
 
 const Profile = () => {
@@ -14,6 +14,7 @@ const Profile = () => {
   const [isInterestDropdownOpen, setInterestDropdownOpen] = useState(false);
   const [interestOption, setInterestOption] = useState('');
   const [userInterests, setUserInterests] = useState([]);
+  const [userRestrictedSources, setUserRestrictedSources] = useState([]);
   const [isSourceDropdownOpen, setSourceDropdownOpen] = useState(false);
   const [sourceOption, setSourceOption] = useState('');
 
@@ -42,16 +43,23 @@ const Profile = () => {
     { label: 'Fox News', value: 'Fox News' },
     { label: 'Associated Press', value: 'Associated Press' },
     { label: 'Bloomberg', value: 'Bloomberg' },
+    { label: 'Breitbart', value: 'Breitbart' },
     { label: 'NPR', value: 'NPR' },
   ];
 
   useEffect(() => {
     fetchUserInterests();
+    fetchUserRestrictedSources();
   }, []);
 
   const fetchUserInterests = async () => {
     const interests = await getInterests();
     setUserInterests(interests.interests);
+  };
+
+  const fetchUserRestrictedSources = async () => {
+    const sources = await getRestrictedSources();
+    setUserRestrictedSources(sources.restricted_sources);
   };
 
   const handleAddInterest = async () => {
@@ -77,13 +85,17 @@ const Profile = () => {
   const handleAddSource = () => {
     if (sourceOption) {
       addRestrictedSource(sourceOption);
+      fetchUserRestrictedSources();
     }
   }
 
+  const handleDeleteSource = async (source) => {
+    deleteRestrictedSource(source);
+    fetchUserRestrictedSources();
+  };
+
   const exampleName = "Armando Christian Pérez"
   const exampleEmail = "mrworldwide305@gmail.com"
-
-  const exampleSources = ["Breitbart News", "InfoWars", "BuzzFeed"]
 
   return (
     <View style={styles.container}>
@@ -153,10 +165,10 @@ const Profile = () => {
           <Text style={styles.addSourceButton} onPress={handleAddSource}>add</Text>
         </View>
         <ScrollView style={styles.userSourceScrollView} contentContainerStyle={styles.userSourceList}>
-          {exampleSources.map((item, index) => (
+          {userRestrictedSources.map((item, index) => (
               <View key={index} style={styles.sourceElement}>
                 <Text style={styles.sourceElementText}>{item}</Text>
-                <Icon name="clear" size={scale(14)} onPress={() => handleDeleteInterest(item)}/>
+                <Icon name="clear" size={scale(14)} onPress={() => handleDeleteSource(item)}/>
               </View>
             ))
           }

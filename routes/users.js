@@ -2,7 +2,7 @@
 const express = require('express');
 const { verifySession } = require("../controllers/authMiddleware");
 
-const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserInterests, getUserClickedArticles, addUserInterest, removeUserInterest, removeRestrictedSource, addRestrictedSource } = require('../controllers/userController');
+const { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserInterests, getUserClickedArticles, addUserInterest, removeUserInterest, getUserRestrictedSources, removeRestrictedSource, addRestrictedSource } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -32,6 +32,9 @@ router.post('/addInterest', verifySession, addUserInterest);
 
 // Route for removing user interest
 router.post('/removeInterest', verifySession, removeUserInterest);
+
+// Route for getting user restricted sources
+router.get('/getUserRestrictedSources', verifySession, getUserRestrictedSources);
 
 // Route for adding restricted source
 router.post('/addRestrictedSource', verifySession, addRestrictedSource);

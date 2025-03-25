@@ -265,6 +265,32 @@ const removeUserInterest = async (req, res) => {
   }
 };
 
+// GET: Get all user restricted sources
+const getUserRestrictedSources = async (req, res) => {
+  try {
+    const dbClient = req.app.get('dbClient');
+    
+    // Get user_id from body. Currently unsafe!
+    const userId = req.user.user_id;
+
+    const result = await dbClient.query(
+      `
+      SELECT restricted_sources
+      FROM users 
+      WHERE user_id = $1
+      `,
+      [userId]
+    );
+
+    const ls = result.rows[0];
+    if (ls["restricted_sources"] == null) ls["restricted_sources"] = [];
+    res.json(ls);
+  } catch (error) {
+    console.error('Error retrieving user restricted sources:', error);
+    res.status(500).json({ error: 'Could not retrieve user restricted sources' });
+  }
+};
+
 // POST: Add Restricted Source
 const addRestrictedSource = async (req, res) => {
   const { restricted_source } = req.body;
@@ -325,4 +351,5 @@ const removeRestrictedSource = async (req, res) => {
 
 
 module.exports = { registerUser, loginUser, logoutUser, getUserSavedArticles, getUserClickedArticles, 
-                    getUserInterests, addUserInterest, removeUserInterest, addRestrictedSource, removeRestrictedSource};
+                    getUserInterests, addUserInterest, removeUserInterest, getUserRestrictedSources, 
+                    addRestrictedSource, removeRestrictedSource};

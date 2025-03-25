@@ -146,8 +146,55 @@ export function deleteInterest(interest) {
         .catch(error => console.error('Error:', error));
 }
 
-export function addRestrictedSource(interest) {
-    console.log("Adding source: " + interest);
+export function getRestrictedSources() {
+    const url = uri + `/users/getUserRestrictedSources?user_id=${encodeURIComponent(userId)}`;
+    console.log("Getting user restricted sources");
+
+    return fetch(url, { method: "GET" })
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error("Error fetching user interests:", error);
+            return [];
+        });
+}
+
+export function addRestrictedSource(source) {
+    const url = uri + `/users/addRestrictedSource?user_id=${encodeURIComponent(userId)}`;
+    console.log("Adding restricted source: " + source);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ restricted_source: source })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); 
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+export function deleteRestrictedSource(source) {
+    const url = uri + `/users/removeRestrictedSource?user_id=${encodeURIComponent(userId)}`;
+    console.log("Deleting restricted source: " + source);
+
+    return fetch(url, {
+        method: 'POST', 
+        headers: { 
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ restricted_source: source })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); 
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 export function getRecommendedArticles() {
