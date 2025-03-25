@@ -5,9 +5,12 @@ const createStyles = (theme) =>
   StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.tabBarColor
+    },
+    exploreContainer: {
         padding: scale(20),
         paddingTop: scale(60),
+        backgroundColor: theme.backgroundColor,
     },
     heading: {
         fontSize: scale(30),

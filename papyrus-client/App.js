@@ -22,6 +22,7 @@ function MainApp() {
   const { theme } = useTheme();
   const [recommendedArticles, setRecommendedArticles] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
+  const [popularArticles, setPopularArticles] = useState([]);
   const [fontsLoaded] = useFonts({
     Bayon_400Regular,
     LibreBaskerville_400Regular,
@@ -34,6 +35,9 @@ function MainApp() {
       try {
         const recommendations = await getRecommendedArticlesAsJson();
         setRecommendedArticles(recommendations);
+        
+        const popularArticles = await getRecommendedArticlesAsJson();
+        setPopularArticles(popularArticles.sort(() => Math.random() - 0.5).slice(0, 5));
 
         const saved = await getSavedArticlesAsJson(); 
         setSavedArticles(saved);
@@ -98,7 +102,7 @@ function MainApp() {
         {() => <Recommendations data={recommendedArticles} />}
       </Tab.Screen>
       <Tab.Screen name="Search">
-        {() => <Search data={CarouselData} />}
+        {() => <Search data={popularArticles} />}
       </Tab.Screen>
       <Tab.Screen name="Bookmarks">
         {() => <Bookmarks data={savedArticles} />}

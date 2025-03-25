@@ -20,6 +20,7 @@ const Bookmarks = ({ data }) => {
 
   const [isArticleOpen, setArticleOpen] = useState(false);
   const [currentArticle, setCurrentArticle] = useState(null);
+  
   const slideAnim = useRef(new Animated.Value(300)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
