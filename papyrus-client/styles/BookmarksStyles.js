@@ -5,9 +5,13 @@ const createStyles = (theme) =>
   StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.tabBarColor
+    },
+    bookmarksContainer: {
         padding: scale(20),
         paddingTop: scale(60),
+        paddingBottom: scale(110),
+        backgroundColor: theme.backgroundColor,
     },
     heading: {
         fontSize: scale(30),
